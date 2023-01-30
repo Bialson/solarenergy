@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+package solarservice;
+
+service SolarService{
+    rpc GetSolarEnergy (NoParam) returns (PowerResponse) {}
+}
+
+message Request {
+    int64 value = 1;
+}
+
+message PowerResponse {
+    int64 value = 1;
+}
+
+message NoParam {}
