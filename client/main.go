@@ -1,10 +1,11 @@
 package main
 
 import (
+	"log"
+
 	api "github.com/Bialson/solarenergy/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"log"
 )
 
 const (
@@ -17,7 +18,10 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-
 	client := api.NewSolarServiceClient(conn)
-	givePower(client)
+	params := &api.PowerConsumptionRequest{
+		Year:           2020,
+		ResponseAmount: 10,
+	}
+	givePowerByArea(client, params)
 }

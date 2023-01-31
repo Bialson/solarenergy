@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"io"
 	"log"
 	"time"
 
@@ -15,5 +16,24 @@ func givePower(client api.SolarServiceClient) {
 	if err != nil {
 		log.Fatalf("could not get power: %v", err)
 	}
-	log.Printf("Power: %v", res.Value)
+	log.Printf("Power: %v", res)
+}
+
+func givePowerByArea(client api.SolarServiceClient, params *api.PowerConsumptionRequest) {
+	log.Printf("Streaming started")
+	stream, err := client.GetSolarEnergyFromHomesByParams(context.Background(), params)
+	if err != nil {
+		log.Fatalf("Could not send params: %v", err)
+	}
+	for {
+		message, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatalf("Error while streaming data: %v", err)
+		}
+		log.Println(message)
+	}
+	log.Println("Streaming finished")
 }

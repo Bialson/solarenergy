@@ -6,14 +6,29 @@ package solarservice;
 
 service SolarService{
     rpc GetSolarEnergy (NoParam) returns (PowerResponse) {}
-}
-
-message Request {
-    int64 value = 1;
+    rpc GetSolarEnergyFromHomesByParams (PowerConsumptionRequest) returns (stream PowerFromHomes) {}
 }
 
 message PowerResponse {
     int64 value = 1;
 }
 
+message PowerConsumptionRequest {
+    int64 year = 1;
+    int64 responseAmount = 2;
+}
+
+message PowerFromHomes {
+    float value = 1;
+    string period = 2;
+    int64 year = 3;
+    string unit = 4;
+    int64 precision = 5;
+    string character = 6;
+}
+
 message NoParam {}
+
+message YearList {
+    repeated string years = 1;
+}
