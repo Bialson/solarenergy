@@ -1,0 +1,429 @@
+[
+	{
+		"id-zmienna": 1002,
+		"nazwa": "<P>Zużycie energii elektrycznej w gospodarstwach domowych</P>",
+		"nazwa-skrocona": "Zużycie energii elektrycznej w gospodarstwach domowych",
+		"tagi": [
+			{
+				"id-tag": 192,
+				"nazwa-tag": "energia elektryczna"
+			},
+			{
+				"id-tag": 193,
+				"nazwa-tag": "zużycie elektryczności "
+			},
+			{
+				"id-tag": 213,
+				"nazwa-tag": "gospodarstwo domowe"
+			}
+		],
+		"pojecia": [
+			{
+				"id-pojecie": 4138,
+				"nazwa-pojecie": "<p>\n\tZużycie energii elektrycznej w gospodarstwach domowych</p>\n",
+				"definicja": "<p>\n\tIlość energii elektrycznej wykorzystanej przez gospodarstwa domowe.</p>\n",
+				"data-poczatku-pojecie": "1999-07-01",
+				"data-konca-pojecie": "9999-12-31"
+			}
+		],
+		"wyjasnienia-metodologiczne": {
+			"notki": [{}]
+		},
+		"przekroje": [
+			{
+				"id-przekroj": 156,
+				"nazwa-przekroj": "Polska, województwa; Charakter miejscowości",
+				"szereg-czasowy": "1995 - 2020",
+				"id-czestotliwosc": 1,
+				"nazwa-czestotliwosc": "Rok",
+				"aktualizacja-ostatnia": "2021-12-08"
+			}
+		],
+		"zestawy": [
+			{
+				"id-zestaw": 103,
+				"symbol-zestaw": "G-10.8",
+				"nazwa-zestaw": "sprawozdanie o sprzedaży/dostawie oraz zużyciu energii elektrycznej według jednostek podziału terytorialnego",
+				"id-gestor": 707,
+				"nazwa-gestor": "Ministerstwo Klimatu i Środowiska"
+			}
+		],
+		"badania": [
+			{
+				"id-badanie": 95,
+				"symbol-badanie": "1.26.06",
+				"temat-badanie": "Infrastruktura techniczna sieci wodociągowych i kanalizacyjnych, ciepłowniczych, gazu z sieci oraz energii elektrycznej",
+				"badanie-cel": "Celem badania jest dostarczenie informacji o zmianach w infrastrukturze komunalnej (wodociągów i kanalizacji, energii elektrycznej, energii cieplnej, gazu z sieci) w zakresie świadczonych usług, oraz o stanie funkcjonujących urządzeń i instalacji."
+			}
+		],
+		"akty-prawne": [{}],
+		"jednostki": [
+			{
+				"id-jednostka": 36,
+				"nazwa-jednostki": "GUS - Departament Handlu i Usług"
+			}
+		]
+	},
+	{
+		"id-zmienna": 1003,
+		"nazwa": "<P>Odbiorcy energii elektrycznej – gospodarstwa domowe</P>",
+		"nazwa-skrocona": "Odbiorcy energii elektrycznej – gospodarstwa domowe",
+		"tagi": [
+			{
+				"id-tag": 192,
+				"nazwa-tag": "energia elektryczna"
+			},
+			{
+				"id-tag": 213,
+				"nazwa-tag": "gospodarstwo domowe"
+			}
+		],
+		"pojecia": [
+			{
+				"id-pojecie": 4137,
+				"nazwa-pojecie": "<p>\n\tOdbiorcy energii elektrycznej w gospodarstwach domowych</p>\n",
+				"definicja": "<p>\n\tOdbiorcy końcowi dokonujący zakupu energii elektrycznej wyłącznie w celu jej zużycia w gospodarstwie domowym.</p>\n",
+				"uwagi": "<p>Stan na 31 grudnia.</p>",
+				"data-poczatku-pojecie": "1995-01-01",
+				"data-konca-pojecie": "9999-12-31"
+			}
+		],
+		"wyjasnienia-metodologiczne": {
+			"notki": [{}]
+		},
+		"przekroje": [
+			{
+				"id-przekroj": 156,
+				"nazwa-przekroj": "Polska, województwa; Charakter miejscowości",
+				"szereg-czasowy": "1995 - 2020",
+				"id-czestotliwosc": 1,
+				"nazwa-czestotliwosc": "Rok",
+				"aktualizacja-ostatnia": "2021-12-08"
+			}
+		],
+		"zestawy": [
+			{
+				"id-zestaw": 103,
+				"symbol-zestaw": "G-10.8",
+				"nazwa-zestaw": "sprawozdanie o sprzedaży/dostawie oraz zużyciu energii elektrycznej według jednostek podziału terytorialnego",
+				"id-gestor": 707,
+				"nazwa-gestor": "Ministerstwo Klimatu i Środowiska"
+			}
+		],
+		"badania": [
+			{
+				"id-badanie": 95,
+				"symbol-badanie": "1.26.06",
+				"temat-badanie": "Infrastruktura techniczna sieci wodociągowych i kanalizacyjnych, ciepłowniczych, gazu z sieci oraz energii elektrycznej",
+				"badanie-cel": "Celem badania jest dostarczenie informacji o zmianach w infrastrukturze komunalnej (wodociągów i kanalizacji, energii elektrycznej, energii cieplnej, gazu z sieci) w zakresie świadczonych usług, oraz o stanie funkcjonujących urządzeń i instalacji."
+			}
+		],
+		"akty-prawne": [{}],
+		"jednostki": [
+			{
+				"id-jednostka": 36,
+				"nazwa-jednostki": "GUS - Departament Handlu i Usług"
+			}
+		]
+	},
+	{
+		"id-zmienna": 232,
+		"nazwa": "<p>\n\tPozyskanie energii</p>\n",
+		"nazwa-skrocona": "Pozyskanie energii",
+		"tagi": [
+			{
+				"id-tag": 253,
+				"nazwa-tag": "wydobycie"
+			},
+			{
+				"id-tag": 268,
+				"nazwa-tag": "energia pierwotna"
+			},
+			{
+				"id-tag": 283,
+				"nazwa-tag": "zasoby krajowe"
+			},
+			{
+				"id-tag": 287,
+				"nazwa-tag": "energia"
+			}
+		],
+		"pojecia": [
+			{
+				"id-pojecie": 3798,
+				"nazwa-pojecie": "<p>\n\tPozyskanie nośników energii</p>\n",
+				"definicja": "<p>\n\tIlość pierwotnych nośników energii uzyskana z zasobów krajowych.</p>\n",
+				"data-poczatku-pojecie": "1999-07-01",
+				"data-konca-pojecie": "9999-12-31"
+			}
+		],
+		"wyjasnienia-metodologiczne": {
+			"notki": [{}]
+		},
+		"przekroje": [
+			{
+				"id-przekroj": 865,
+				"nazwa-przekroj": "Polska; Nośniki energii odnawialnej",
+				"szereg-czasowy": "2010 - 2020",
+				"id-czestotliwosc": 1,
+				"nazwa-czestotliwosc": "Rok",
+				"aktualizacja-ostatnia": "2022-05-31"
+			},
+			{
+				"id-przekroj": 866,
+				"nazwa-przekroj": "Polska; Paliwa kopalne",
+				"szereg-czasowy": "2010 - 2020",
+				"id-czestotliwosc": 1,
+				"nazwa-czestotliwosc": "Rok",
+				"aktualizacja-ostatnia": "2022-05-31"
+			}
+		],
+		"zestawy": [
+			{
+				"id-zestaw": 77,
+				"symbol-zestaw": "G-02b",
+				"nazwa-zestaw": "sprawozdanie bilansowe nośników energii i infrastruktury ciepłowniczej",
+				"id-gestor": 35,
+				"nazwa-gestor": "Główny Urząd Statystyczny"
+			},
+			{
+				"id-zestaw": 79,
+				"symbol-zestaw": "G-02o",
+				"nazwa-zestaw": "sprawozdanie o cieple ze źródeł odnawialnych",
+				"id-gestor": 35,
+				"nazwa-gestor": "Główny Urząd Statystyczny"
+			},
+			{
+				"id-zestaw": 80,
+				"symbol-zestaw": "G-03",
+				"nazwa-zestaw": "sprawozdanie o zużyciu nośników energii",
+				"id-gestor": 35,
+				"nazwa-gestor": "Główny Urząd Statystyczny"
+			},
+			{
+				"id-zestaw": 100,
+				"symbol-zestaw": "G-10.6",
+				"nazwa-zestaw": "sprawozdanie o mocy i produkcji elektrowni wodnych, wiatrowych i innych instalacji odnawialnego źródła energii",
+				"id-gestor": 707,
+				"nazwa-gestor": "Ministerstwo Klimatu i Środowiska"
+			}
+		],
+		"badania": [
+			{
+				"id-badanie": 147,
+				"symbol-badanie": "1.44.01",
+				"temat-badanie": "Bilanse paliw i energii",
+				"badanie-cel": "Celem badania jest dostarczenie informacji niezbędnych dla monitorowania sytuacji w zakresie bezpieczeństwa energetycznego i ochrony środowiska, poziomu cen nośników energii, oceny energochłonności gospodarki, zwiększania efektywności użytkowania paliw i energii oraz umożliwienia opracowywania prognoz zapotrzebowania na nośniki energii, projektów założeń polityki energetycznej, inwentaryzacji emisji zanieczyszczeń atmosfery ze źródeł energetycznych i transportowych, zapewnienie danych dla systemu zintegrowanych rachunków ekonomicznych środowiska oraz opracowywanie bilansów paliwowo-energetycznych kraju."
+			}
+		],
+		"akty-prawne": [{}],
+		"jednostki": [
+			{
+				"id-jednostka": 234,
+				"nazwa-jednostki": "GUS - Departament Przedsiębiorstw"
+			}
+		]
+	},
+	{
+		"id-zmienna": 237,
+		"nazwa": "<p>\n\tZużycie bezpośrednie</p>\n",
+		"nazwa-skrocona": "Zużycie bezpośrednie",
+		"tagi": [
+			{
+				"id-tag": 258,
+				"nazwa-tag": "końcowe odbiorniki energii"
+			},
+			{
+				"id-tag": 273,
+				"nazwa-tag": "potrzeby energetyczne przemian"
+			},
+			{
+				"id-tag": 287,
+				"nazwa-tag": "energia"
+			},
+			{
+				"id-tag": 288,
+				"nazwa-tag": "zużycie nieenergetyczne"
+			},
+			{
+				"id-tag": 297,
+				"nazwa-tag": "straty i ubytki naturalne"
+			}
+		],
+		"pojecia": [
+			{
+				"id-pojecie": 2840,
+				"nazwa-pojecie": "<p>\n\tZużycie bezpośrednie</p>\n",
+				"definicja": "<p>\n\tIlość nośników energii zużyta w odbiornikach końcowych bez dalszego przetwarzania na inne nośniki energii. Zużycie to obejmuje również zużycie nośników energii na potrzeby energetyczne przemian, zużycie nieenergetyczne oraz straty i ubytki naturalne u odbiorców.</p>\n",
+				"data-poczatku-pojecie": "2006-06-21",
+				"data-konca-pojecie": "9999-12-31"
+			}
+		],
+		"wyjasnienia-metodologiczne": {
+			"notki": [{}]
+		},
+		"przekroje": [
+			{
+				"id-przekroj": 865,
+				"nazwa-przekroj": "Polska; Nośniki energii odnawialnej",
+				"szereg-czasowy": "2010 - 2020",
+				"id-czestotliwosc": 1,
+				"nazwa-czestotliwosc": "Rok",
+				"aktualizacja-ostatnia": "2022-05-31"
+			},
+			{
+				"id-przekroj": 866,
+				"nazwa-przekroj": "Polska; Paliwa kopalne",
+				"szereg-czasowy": "2010 - 2020",
+				"id-czestotliwosc": 1,
+				"nazwa-czestotliwosc": "Rok",
+				"aktualizacja-ostatnia": "2022-05-31"
+			}
+		],
+		"zestawy": [
+			{
+				"id-zestaw": 77,
+				"symbol-zestaw": "G-02b",
+				"nazwa-zestaw": "sprawozdanie bilansowe nośników energii i infrastruktury ciepłowniczej",
+				"id-gestor": 35,
+				"nazwa-gestor": "Główny Urząd Statystyczny"
+			},
+			{
+				"id-zestaw": 79,
+				"symbol-zestaw": "G-02o",
+				"nazwa-zestaw": "sprawozdanie o cieple ze źródeł odnawialnych",
+				"id-gestor": 35,
+				"nazwa-gestor": "Główny Urząd Statystyczny"
+			},
+			{
+				"id-zestaw": 80,
+				"symbol-zestaw": "G-03",
+				"nazwa-zestaw": "sprawozdanie o zużyciu nośników energii",
+				"id-gestor": 35,
+				"nazwa-gestor": "Główny Urząd Statystyczny"
+			},
+			{
+				"id-zestaw": 100,
+				"symbol-zestaw": "G-10.6",
+				"nazwa-zestaw": "sprawozdanie o mocy i produkcji elektrowni wodnych, wiatrowych i innych instalacji odnawialnego źródła energii",
+				"id-gestor": 707,
+				"nazwa-gestor": "Ministerstwo Klimatu i Środowiska"
+			}
+		],
+		"badania": [
+			{
+				"id-badanie": 147,
+				"symbol-badanie": "1.44.01",
+				"temat-badanie": "Bilanse paliw i energii",
+				"badanie-cel": "Celem badania jest dostarczenie informacji niezbędnych dla monitorowania sytuacji w zakresie bezpieczeństwa energetycznego i ochrony środowiska, poziomu cen nośników energii, oceny energochłonności gospodarki, zwiększania efektywności użytkowania paliw i energii oraz umożliwienia opracowywania prognoz zapotrzebowania na nośniki energii, projektów założeń polityki energetycznej, inwentaryzacji emisji zanieczyszczeń atmosfery ze źródeł energetycznych i transportowych, zapewnienie danych dla systemu zintegrowanych rachunków ekonomicznych środowiska oraz opracowywanie bilansów paliwowo-energetycznych kraju."
+			}
+		],
+		"akty-prawne": [{}],
+		"jednostki": [
+			{
+				"id-jednostka": 234,
+				"nazwa-jednostki": "GUS - Departament Przedsiębiorstw"
+			}
+		]
+	},
+	{
+		"id-zmienna": 1080,
+		"nazwa": "<p>\n\tZużycie ogółem</p>\n",
+		"nazwa-skrocona": "Zużycie ogółem",
+		"tagi": [
+			{
+				"id-tag": 287,
+				"nazwa-tag": "energia"
+			}
+		],
+		"pojecia": [
+			{
+				"id-pojecie": 675,
+				"nazwa-pojecie": "<p>\n\tZużycie ogółem nośników energii</p>\n",
+				"definicja": "<p>Suma zużycia bezpośredniego nośników energii i zużycia na wsad przemian energetycznych powiększoną/pomniejszoną o straty i różnice bilansowe.</p>",
+				"data-poczatku-pojecie": "1999-07-01",
+				"data-konca-pojecie": "9999-12-31"
+			}
+		],
+		"wyjasnienia-metodologiczne": {
+			"notki": [{}]
+		},
+		"przekroje": [
+			{
+				"id-przekroj": 865,
+				"nazwa-przekroj": "Polska; Nośniki energii odnawialnej",
+				"szereg-czasowy": "2010 - 2020",
+				"id-czestotliwosc": 1,
+				"nazwa-czestotliwosc": "Rok",
+				"aktualizacja-ostatnia": "2022-05-31"
+			},
+			{
+				"id-przekroj": 866,
+				"nazwa-przekroj": "Polska; Paliwa kopalne",
+				"szereg-czasowy": "2010 - 2020",
+				"id-czestotliwosc": 1,
+				"nazwa-czestotliwosc": "Rok",
+				"aktualizacja-ostatnia": "2022-05-31"
+			}
+		],
+		"zestawy": [
+			{
+				"id-zestaw": 77,
+				"symbol-zestaw": "G-02b",
+				"nazwa-zestaw": "sprawozdanie bilansowe nośników energii i infrastruktury ciepłowniczej",
+				"id-gestor": 35,
+				"nazwa-gestor": "Główny Urząd Statystyczny"
+			},
+			{
+				"id-zestaw": 79,
+				"symbol-zestaw": "G-02o",
+				"nazwa-zestaw": "sprawozdanie o cieple ze źródeł odnawialnych",
+				"id-gestor": 35,
+				"nazwa-gestor": "Główny Urząd Statystyczny"
+			},
+			{
+				"id-zestaw": 80,
+				"symbol-zestaw": "G-03",
+				"nazwa-zestaw": "sprawozdanie o zużyciu nośników energii",
+				"id-gestor": 35,
+				"nazwa-gestor": "Główny Urząd Statystyczny"
+			},
+			{
+				"id-zestaw": 369,
+				"symbol-zestaw": "P-01",
+				"nazwa-zestaw": "sprawozdanie o produkcji",
+				"id-gestor": 35,
+				"nazwa-gestor": "Główny Urząd Statystyczny"
+			},
+			{
+				"id-zestaw": 417,
+				"symbol-zestaw": "RAF-1",
+				"nazwa-zestaw": "sprawozdanie z rozliczenia procesu przemiany w przedsiębiorstwach wytwarzających i przerabiających produkty rafinacji ropy naftowej",
+				"id-gestor": 707,
+				"nazwa-gestor": "Ministerstwo Klimatu i Środowiska"
+			},
+			{
+				"id-zestaw": 418,
+				"symbol-zestaw": "RAF-2",
+				"nazwa-zestaw": "sprawozdanie o produkcji, obrocie, zapasach oraz o infrastrukturze magazynowej i przesyłowej ropy naftowej, produktów naftowych i biopaliw",
+				"id-gestor": 707,
+				"nazwa-gestor": "Ministerstwo Klimatu i Środowiska"
+			}
+		],
+		"badania": [
+			{
+				"id-badanie": 147,
+				"symbol-badanie": "1.44.01",
+				"temat-badanie": "Bilanse paliw i energii",
+				"badanie-cel": "Celem badania jest dostarczenie informacji niezbędnych dla monitorowania sytuacji w zakresie bezpieczeństwa energetycznego i ochrony środowiska, poziomu cen nośników energii, oceny energochłonności gospodarki, zwiększania efektywności użytkowania paliw i energii oraz umożliwienia opracowywania prognoz zapotrzebowania na nośniki energii, projektów założeń polityki energetycznej, inwentaryzacji emisji zanieczyszczeń atmosfery ze źródeł energetycznych i transportowych, zapewnienie danych dla systemu zintegrowanych rachunków ekonomicznych środowiska oraz opracowywanie bilansów paliwowo-energetycznych kraju."
+			}
+		],
+		"akty-prawne": [{}],
+		"jednostki": [
+			{
+				"id-jednostka": 234,
+				"nazwa-jednostki": "GUS - Departament Przedsiębiorstw"
+			}
+		]
+	}
+]

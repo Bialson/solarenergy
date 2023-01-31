@@ -1,0 +1,142 @@
+[
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 3,
+		"nazwa-wymiar": "Charakter miejscowości",
+		"id-pozycja": 6655092,
+		"nazwa-pozycja": "Ogółem"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 3,
+		"nazwa-wymiar": "Charakter miejscowości",
+		"id-pozycja": 6655093,
+		"nazwa-pozycja": "Miasto"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 3,
+		"nazwa-wymiar": "Charakter miejscowości",
+		"id-pozycja": 6655153,
+		"nazwa-pozycja": "Wieś"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 33617,
+		"nazwa-pozycja": "POLSKA"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 33619,
+		"nazwa-pozycja": "MAŁOPOLSKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 33929,
+		"nazwa-pozycja": "ŚLĄSKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 34187,
+		"nazwa-pozycja": "LUBUSKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 34353,
+		"nazwa-pozycja": "WIELKOPOLSKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 34815,
+		"nazwa-pozycja": "ZACHODNIOPOMORSKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 35067,
+		"nazwa-pozycja": "DOLNOŚLĄSKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 35390,
+		"nazwa-pozycja": "OPOLSKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 35542,
+		"nazwa-pozycja": "KUJAWSKO-POMORSKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 35786,
+		"nazwa-pozycja": "POMORSKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 35976,
+		"nazwa-pozycja": "WARMIŃSKO-MAZURSKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 36185,
+		"nazwa-pozycja": "ŁÓDZKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 36450,
+		"nazwa-pozycja": "ŚWIĘTOKRZYSKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 36627,
+		"nazwa-pozycja": "LUBELSKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 36924,
+		"nazwa-pozycja": "PODKARPACKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 37185,
+		"nazwa-pozycja": "PODLASKIE"
+	},
+	{
+		"id-przekroj": 156,
+		"id-wymiar": 4,
+		"nazwa-wymiar": "Polska, województwa",
+		"id-pozycja": 37380,
+		"nazwa-pozycja": "MAZOWIECKIE"
+	}
+]
