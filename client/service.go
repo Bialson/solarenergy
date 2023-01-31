@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"log"
 	"time"
@@ -33,7 +34,7 @@ func givePowerByArea(client api.SolarServiceClient, params *api.PowerConsumption
 		if err != nil {
 			log.Fatalf("Error while streaming data: %v", err)
 		}
-		log.Println(message)
+		fmt.Printf("%v\n", message)
 	}
 	log.Println("Streaming finished")
 }
