@@ -22,7 +22,7 @@ func (s *solarServer) GetSolarEnergyFromHomesByParams(req *api.PowerConsumptionR
 		log.Printf("Requested amount of results is too big, max is %d", MAX_RESULTS)
 		resultsNumber = MAX_RESULTS
 	}
-	dataURL := fmt.Sprintf("https://api-dbw.stat.gov.pl/api/1.1.0/variable/variable-data-section?sorts=id-pozycja-2&id-zmienna=%v&id-przekroj=%v&id-rok=%d&id-okres=%v&ile-na-stronie=%d&numer-strony=0&lang=pl", DATA_CAT, SECTION, req.Year, PERIOD, MAX_RESULTS)
+	dataURL := fmt.Sprintf("https://api-dbw.stat.gov.pl/api/1.1.0/variable/variable-data-section?sorts=id-pozycja-2&id-zmienna=%v&id-przekroj=%v&id-rok=%d&id-okres=%v&ile-na-stronie=%d&numer-strony=0&lang=pl", DATA_CAT, SECTION, req.Year, PERIOD, req.ResponseAmount)
 	log.Printf("Requesting data from: %s", dataURL)
 	dataReq, err := http.Get(dataURL)
 	if err != nil {
@@ -53,10 +53,12 @@ func (s *solarServer) GetSolarEnergyFromHomesByParams(req *api.PowerConsumptionR
 		EnergyDataArrFiltered = FilterByCharacterAndRegion(req.Character, req.Region)
 	} else if req.Character != "" {
 		EnergyDataArrFiltered = FilterByCharacter(req.Character)
-	} else {
+	} else if req.Region != "" {
 		EnergyDataArrFiltered = FilterByRegion(req.Region)
+	} else {
+		EnergyDataArrFiltered = EnergyDataArr
+		EnergyDataArr = nil
 	}
-	EnergyDataArr = nil
 	for _, el := range EnergyDataArrFiltered {
 		res := &api.PowerFromHomes{
 			Value:     el.Wartosc,
