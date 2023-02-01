@@ -24,7 +24,8 @@ message PowerFromHomes {
     int64 year = 3;
     string unit = 4;
     int64 precision = 5;
-    string character = 6;
+    string region = 6;
+    string character = 7;
 }
 
 message NoParam {}
