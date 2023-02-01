@@ -22,6 +22,8 @@ func main() {
 	params := &api.PowerConsumptionRequest{
 		Year:           2020,
 		ResponseAmount: 10,
+		Region:         "OPOLSKIE",
+		Character:      "Miasto",
 	}
 	givePowerByArea(client, params)
 }
