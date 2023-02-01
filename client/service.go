@@ -26,6 +26,7 @@ func givePowerByArea(client api.SolarServiceClient, params *api.PowerConsumption
 	if err != nil {
 		log.Fatalf("Could not send params: %v", err)
 	}
+	fmt.Println("Received data: ")
 	for {
 		message, err := stream.Recv()
 		if err == io.EOF {
@@ -34,7 +35,15 @@ func givePowerByArea(client api.SolarServiceClient, params *api.PowerConsumption
 		if err != nil {
 			log.Fatalf("Error while streaming data: %v", err)
 		}
-		fmt.Printf("%v\n", message)
+		fmt.Printf(`
+	Value: %10f
+	Period: %10s
+	Year: %d
+	Unit: %s
+	Precision: %d
+	Region: %s
+	Character: %s
+`, message.Value, message.Period, message.Year, message.Unit, message.Precision, message.Region, message.Character)
 	}
 	log.Println("Streaming finished")
 }
