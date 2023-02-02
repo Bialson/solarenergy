@@ -17,12 +17,7 @@ func (s *solarServer) GetSolarEnergy(ctx context.Context, req *api.NoParam) (*ap
 
 func (s *solarServer) GetSolarEnergyFromHomesByParams(req *api.PowerConsumptionRequest, stream api.SolarService_GetSolarEnergyFromHomesByParamsServer) error {
 	log.Printf("Received params: %v", req)
-	resultsNumber := req.ResponseAmount
-	if resultsNumber > MAX_RESULTS {
-		log.Printf("Requested amount of results is too big, max is %d", MAX_RESULTS)
-		resultsNumber = MAX_RESULTS
-	}
-	dataURL := fmt.Sprintf("https://api-dbw.stat.gov.pl/api/1.1.0/variable/variable-data-section?sorts=id-pozycja-2&id-zmienna=%v&id-przekroj=%v&id-rok=%d&id-okres=%v&ile-na-stronie=%d&numer-strony=0&lang=pl", DATA_CAT, SECTION, req.Year, PERIOD, req.ResponseAmount)
+	dataURL := fmt.Sprintf("https://api-dbw.stat.gov.pl/api/1.1.0/variable/variable-data-section?sorts=id-pozycja-2&id-zmienna=%v&id-przekroj=%v&id-rok=%d&id-okres=%v&ile-na-stronie=%d&numer-strony=0&lang=pl", DATA_CAT, SECTION, req.Year, PERIOD, MAX_RESULTS)
 	log.Printf("Requesting data from: %s", dataURL)
 	dataReq, err := http.Get(dataURL)
 	if err != nil {
@@ -33,13 +28,13 @@ func (s *solarServer) GetSolarEnergyFromHomesByParams(req *api.PowerConsumptionR
 	if err != nil {
 		log.Fatalf("Could not read data: %v", err)
 	}
-	log.Printf("Data received: %s", dataRes)
 	var dataJSON interface{}
 	err = json.Unmarshal(dataRes, &dataJSON)
 	if err != nil {
 		log.Fatalf("Could not unmarshal data: %v", err)
 	}
 	energyJSON := dataJSON.(map[string]interface{})["data"].([]interface{})
+	log.Printf("Data received count: %v", len(energyJSON))
 	for _, occurence := range energyJSON {
 		encodedEnergyJSONElement, _ := json.Marshal(occurence)
 		var el EnergyElement
@@ -53,11 +48,16 @@ func (s *solarServer) GetSolarEnergyFromHomesByParams(req *api.PowerConsumptionR
 		EnergyDataArrFiltered = FilterByCharacterAndRegion(req.Character, req.Region)
 	} else if req.Character != "" {
 		EnergyDataArrFiltered = FilterByCharacter(req.Character)
+		QuickSortByRegion(EnergyDataArrFiltered, 0, len(EnergyDataArrFiltered)-1)
 	} else if req.Region != "" {
 		EnergyDataArrFiltered = FilterByRegion(req.Region)
 	} else {
 		EnergyDataArrFiltered = EnergyDataArr
-		EnergyDataArr = nil
+		QuickSortByRegion(EnergyDataArrFiltered, 0, len(EnergyDataArrFiltered)-1)
+	}
+	log.Printf("Filtered data count: %v", len(EnergyDataArrFiltered))
+	if req.ResponseAmount != 0 && int(req.ResponseAmount) < len(EnergyDataArrFiltered) {
+		EnergyDataArrFiltered = EnergyDataArrFiltered[:req.ResponseAmount]
 	}
 	for _, el := range EnergyDataArrFiltered {
 		res := &api.PowerFromHomes{
@@ -74,5 +74,7 @@ func (s *solarServer) GetSolarEnergyFromHomesByParams(req *api.PowerConsumptionR
 			log.Fatalf("Could not send data: %v", err)
 		}
 	}
+	EnergyDataArr = nil
+	EnergyDataArrFiltered = nil
 	return nil
 }
