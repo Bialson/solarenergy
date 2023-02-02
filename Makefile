@@ -1,2 +1,2 @@
 generate_grpc:
-	protoc --go_out=service --go_opt=paths=source_relative --go-grpc_out=service --go-grpc_opt=paths=source_relative energy.proto
+	protoc --go_out=. --go-grpc_out=. energy.proto
