@@ -22,7 +22,6 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SolarServiceClient interface {
-	GetSolarEnergy(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*PowerResponse, error)
 	GetSolarEnergyFromHomesByParams(ctx context.Context, in *PowerConsumptionRequest, opts ...grpc.CallOption) (SolarService_GetSolarEnergyFromHomesByParamsClient, error)
 }
 
@@ -32,15 +31,6 @@ type solarServiceClient struct {
 
 func NewSolarServiceClient(cc grpc.ClientConnInterface) SolarServiceClient {
 	return &solarServiceClient{cc}
-}
-
-func (c *solarServiceClient) GetSolarEnergy(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*PowerResponse, error) {
-	out := new(PowerResponse)
-	err := c.cc.Invoke(ctx, "/solarservice.SolarService/GetSolarEnergy", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *solarServiceClient) GetSolarEnergyFromHomesByParams(ctx context.Context, in *PowerConsumptionRequest, opts ...grpc.CallOption) (SolarService_GetSolarEnergyFromHomesByParamsClient, error) {
@@ -79,7 +69,6 @@ func (x *solarServiceGetSolarEnergyFromHomesByParamsClient) Recv() (*PowerFromHo
 // All implementations must embed UnimplementedSolarServiceServer
 // for forward compatibility
 type SolarServiceServer interface {
-	GetSolarEnergy(context.Context, *NoParam) (*PowerResponse, error)
 	GetSolarEnergyFromHomesByParams(*PowerConsumptionRequest, SolarService_GetSolarEnergyFromHomesByParamsServer) error
 	mustEmbedUnimplementedSolarServiceServer()
 }
@@ -88,9 +77,6 @@ type SolarServiceServer interface {
 type UnimplementedSolarServiceServer struct {
 }
 
-func (UnimplementedSolarServiceServer) GetSolarEnergy(context.Context, *NoParam) (*PowerResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSolarEnergy not implemented")
-}
 func (UnimplementedSolarServiceServer) GetSolarEnergyFromHomesByParams(*PowerConsumptionRequest, SolarService_GetSolarEnergyFromHomesByParamsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetSolarEnergyFromHomesByParams not implemented")
 }
@@ -105,24 +91,6 @@ type UnsafeSolarServiceServer interface {
 
 func RegisterSolarServiceServer(s grpc.ServiceRegistrar, srv SolarServiceServer) {
 	s.RegisterService(&SolarService_ServiceDesc, srv)
-}
-
-func _SolarService_GetSolarEnergy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(NoParam)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SolarServiceServer).GetSolarEnergy(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/solarservice.SolarService/GetSolarEnergy",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SolarServiceServer).GetSolarEnergy(ctx, req.(*NoParam))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _SolarService_GetSolarEnergyFromHomesByParams_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -152,12 +120,7 @@ func (x *solarServiceGetSolarEnergyFromHomesByParamsServer) Send(m *PowerFromHom
 var SolarService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "solarservice.SolarService",
 	HandlerType: (*SolarServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "GetSolarEnergy",
-			Handler:    _SolarService_GetSolarEnergy_Handler,
-		},
-	},
+	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "GetSolarEnergyFromHomesByParams",

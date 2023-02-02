@@ -1,2 +1,2 @@
 generate_grpc:
-	protoc --go_out=. --go-grpc_out=. energy.proto
+	protoc --go_out=. --go-grpc_out=. proto/energy.proto
