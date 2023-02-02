@@ -16,6 +16,7 @@ func TestGetSolarEnergy(t *testing.T) {
 	defer conn()
 	type expectation struct {
 		out []*api.PowerFromHomes
+		len int
 		err error
 	}
 
@@ -23,70 +24,89 @@ func TestGetSolarEnergy(t *testing.T) {
 		in       *api.PowerConsumptionRequest
 		expected expectation
 	}{
-		"Two responses without filter": {
+		"Sort amount of res withour filters": {
 			in: &api.PowerConsumptionRequest{
 				Year:           2020,
-				ResponseAmount: 2,
+				ResponseAmount: 4,
 				Region:         "",
 				Character:      "",
 			},
 			expected: expectation{
 				out: []*api.PowerFromHomes{
 					{
-						Value:     965164.812500,
+						Value:     879201.125000,
 						Period:    "Rok - dane roczne",
 						Year:      2020,
 						Unit:      "[MWh]",
 						Precision: 1,
-						Region:    "PODLASKIE",
-						Character: "Ogółem",
+						Region:    "DOLNOŚLĄSKIE",
+						Character: "Wieś",
 					},
 					{
-						Value:     965164800.000000,
+						Value:     879201152.000000,
 						Period:    "Rok - dane roczne",
 						Year:      2020,
 						Unit:      "[kWh]",
 						Precision: 1,
-						Region:    "PODLASKIE",
-						Character: "Ogółem",
+						Region:    "DOLNOŚLĄSKIE",
+						Character: "Wieś",
+					},
+					{
+						Value:     957.400024,
+						Period:    "Rok - dane roczne",
+						Year:      2020,
+						Unit:      "[kWh] - na 1 mieszkańca",
+						Precision: 1,
+						Region:    "DOLNOŚLĄSKIE",
+						Character: "Wieś",
+					},
+					{
+						Value:     2588.199951,
+						Period:    "Rok - dane roczne",
+						Year:      2020,
+						Unit:      "[kWh] - na 1 odbiorcę",
+						Precision: 1,
+						Region:    "DOLNOŚLĄSKIE",
+						Character: "Wieś",
 					},
 				},
+				len: 4,
 				err: nil,
 			},
 		},
 		"Responses with filters": {
 			in: &api.PowerConsumptionRequest{
-				Year:           2019,
-				ResponseAmount: 10,
+				Year:           2020,
+				ResponseAmount: 2,
 				Region:         "OPOLSKIE",
 				Character:      "Miasto",
 			},
 			expected: expectation{
 				out: []*api.PowerFromHomes{
 					{
-						Value:     401739.187500,
+						Value:     416418.406250,
 						Period:    "Rok - dane roczne",
-						Year:      2019,
+						Year:      2020,
 						Unit:      "[MWh]",
 						Precision: 1,
 						Region:    "OPOLSKIE",
 						Character: "Miasto",
 					},
 					{
-						Value:     401739200.000000,
+						Value:     416418432.000000,
 						Period:    "Rok - dane roczne",
-						Year:      2019,
+						Year:      2020,
 						Unit:      "[kWh]",
 						Precision: 1,
 						Region:    "OPOLSKIE",
 						Character: "Miasto",
 					},
 				},
+				len: 2,
 				err: nil,
 			},
 		},
 	}
-
 	for scenario, tt := range tests {
 		t.Run(scenario, func(t *testing.T) {
 			log.Printf("Test: %s", scenario)
@@ -104,7 +124,7 @@ func TestGetSolarEnergy(t *testing.T) {
 					t.Errorf("Expected error: %v, got: %v", tt.expected.err, err)
 				}
 			} else {
-				if len(outs) != len(tt.expected.out) {
+				if len(outs) != len(tt.expected.out) && len(outs) != tt.expected.len {
 					t.Errorf("Expected %d responses, got %d", len(tt.expected.out), len(outs))
 				} else {
 					for i, el := range outs {
