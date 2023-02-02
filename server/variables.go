@@ -4,7 +4,7 @@ const (
 	DATA_CAT    = 1002
 	PERIOD      = 282
 	SECTION     = 156
-	MAX_RESULTS = 500
+	MAX_RESULTS = 204
 )
 
 var Variables = map[int]string{
@@ -14,7 +14,7 @@ var Variables = map[int]string{
 	186:     "[MWh]",
 	187:     "[kWh]",
 	188:     "[kWh] - na 1 mieszkańca",
-	189:     "[kwh] - na 1 odbiorcę",
+	189:     "[kWh] - na 1 odbiorcę",
 	6655092: "Ogółem",
 	6655093: "Miasto",
 	6655153: "Wieś",
