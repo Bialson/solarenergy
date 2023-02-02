@@ -1,15 +1,6 @@
 package main
 
-import (
-	"sort"
-)
-
-func SortByRegions(i, j int) bool {
-	return Variables[int(EnergyDataArr[i].IdPozycja1)] > Variables[int(EnergyDataArr[j].IdPozycja1)]
-}
-
 func FilterByRegion(region string) []EnergyElement {
-	sort.Slice(EnergyDataArr, SortByRegions)
 	result := []EnergyElement{}
 	for i := range EnergyDataArr {
 		if Variables[int(EnergyDataArr[i].IdPozycja1)] == region {
@@ -20,7 +11,6 @@ func FilterByRegion(region string) []EnergyElement {
 }
 
 func FilterByCharacter(character string) []EnergyElement {
-	sort.Slice(EnergyDataArr, SortByRegions)
 	result := []EnergyElement{}
 	for i := range EnergyDataArr {
 		if Variables[int(EnergyDataArr[i].IdPozycja2)] == character {
@@ -31,7 +21,6 @@ func FilterByCharacter(character string) []EnergyElement {
 }
 
 func FilterByCharacterAndRegion(character, region string) []EnergyElement {
-	sort.Slice(EnergyDataArr, SortByRegions)
 	result := []EnergyElement{}
 	for i := range EnergyDataArr {
 		if Variables[int(EnergyDataArr[i].IdPozycja2)] == character && Variables[int(EnergyDataArr[i].IdPozycja1)] == region {
@@ -39,4 +28,27 @@ func FilterByCharacterAndRegion(character, region string) []EnergyElement {
 		}
 	}
 	return result
+}
+
+func partition(arr []EnergyElement, left, right int) ([]EnergyElement, int) {
+	pivot := Variables[int(arr[right].IdPozycja1)]
+	i := left
+	for j := left; j < right; j++ {
+		if Variables[int(arr[j].IdPozycja1)] <= pivot {
+			arr[i], arr[j] = arr[j], arr[i]
+			i++
+		}
+	}
+	arr[i], arr[right] = arr[right], arr[i]
+	return arr, i
+}
+
+func QuickSortByRegion(arr []EnergyElement, left, right int) []EnergyElement {
+	if left < right {
+		var p int
+		arr, p = partition(EnergyDataArr, left, right)
+		arr = QuickSortByRegion(arr, left, p-1)
+		arr = QuickSortByRegion(arr, p+1, right)
+	}
+	return arr
 }
