@@ -62,6 +62,11 @@ If everything is ok you should get the following path in you console
   C:\Users\[username]\go
 ```
 
+Add the workspace’s `bin` subdirectory to your `$PATH`. You can do this using the `setx` command in PowerShell
+
+```powershell
+  setx PATH "$($env:path);$GOPATH\bin"
+
 ### Docker 
 
 Change directory to main folder `solarenergy` and then build image
