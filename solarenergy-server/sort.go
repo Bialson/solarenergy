@@ -1,5 +1,7 @@
 package main
 
+//Method for filtering data by region
+
 func FilterByRegion(region string) []EnergyElement {
 	result := []EnergyElement{}
 	for i := range EnergyDataArr {
@@ -9,6 +11,8 @@ func FilterByRegion(region string) []EnergyElement {
 	}
 	return result
 }
+
+//Method for filtering data by character
 
 func FilterByCharacter(character string) []EnergyElement {
 	result := []EnergyElement{}
@@ -20,6 +24,8 @@ func FilterByCharacter(character string) []EnergyElement {
 	return result
 }
 
+//Method for filtering data by region and character
+
 func FilterByCharacterAndRegion(character, region string) []EnergyElement {
 	result := []EnergyElement{}
 	for i := range EnergyDataArr {
@@ -30,7 +36,10 @@ func FilterByCharacterAndRegion(character, region string) []EnergyElement {
 	return result
 }
 
+//QuickSort implementation for sorting data by region in descending order
+
 func partition(arr []EnergyElement, left, right int) ([]EnergyElement, int) {
+	//Comparing each request is based on the decoded region from Variables array (variables.go)
 	pivot := Variables[int(arr[right].IdPozycja1)]
 	i := left
 	for j := left; j < right; j++ {

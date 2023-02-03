@@ -1,11 +1,15 @@
 package main
 
+// Variables for API DBW request
+
 const (
 	DATA_CAT    = 1002
 	PERIOD      = 282
 	SECTION     = 156
 	MAX_RESULTS = 204
 )
+
+// Variables for decoding data from API DBW response
 
 var Variables = map[int]string{
 	1002:    "Energia elektryczna",
@@ -37,6 +41,8 @@ var Variables = map[int]string{
 	37380:   "MAZOWIECKIE",
 }
 
+//Struct for decoding data record from API DBW response
+
 type EnergyElement struct {
 	Rownumber                int64   `json:"rownumber"`
 	IdZmienna                int64   `json:"id-zmienna"`
@@ -54,6 +60,8 @@ type EnergyElement struct {
 	Wartosc                  float32 `json:"wartosc"`
 	Precyzja                 int64   `json:"precyzja"`
 }
+
+//Arrays for storing data from API DBW response and filtered data
 
 var EnergyDataArr []EnergyElement
 var EnergyDataArrFiltered []EnergyElement

@@ -10,20 +10,21 @@ import (
 )
 
 func givePowerByArea(client api.SolarServiceClient, params *api.PowerConsumptionRequest) {
-	stream, err := client.GetSolarEnergyFromHomesByParams(context.Background(), params)
+	stream, err := client.GetSolarEnergyFromHomesByParams(context.Background(), params) //Calling request for gathering energy data from gRPC server
 	if err != nil {
 		log.Fatalf("Could not send params: %v", err)
 	}
 	log.Printf("Data streaming started! \n")
 	fmt.Printf("Received data: \n\n")
 	for {
-		message, err := stream.Recv()
-		if err == io.EOF {
+		message, err := stream.Recv() //Receiving message from stream
+		if err == io.EOF {            //If stream is finished
 			break
 		}
 		if err != nil {
 			log.Fatalf("Error while streaming data: %v", err)
 		}
+		//Printing results to console
 		fmt.Println("-------------------------------------------------")
 		fmt.Printf("\tValue: %v \n", message.Value)
 		fmt.Printf("\tPeriod: %v \n", message.Period)

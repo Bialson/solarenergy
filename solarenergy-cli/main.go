@@ -16,6 +16,7 @@ const (
 )
 
 func main() {
+	// Create a new CLI app
 	app := &cli.App{
 		EnableBashCompletion: true,
 		Name:                 "solarenergy",
@@ -68,7 +69,7 @@ func main() {
 					fmt.Println("Given parameters:")
 					fmt.Printf("Region: %s, Character: %s, Year: %d, Amount: %d\n", cCtx.String("region"), cCtx.String("character"), cCtx.Int("year"), cCtx.Int("amount"))
 					fmt.Println(" * Connecting to server...")
-					conn, err := grpc.Dial("localhost"+port, grpc.WithTransportCredentials(insecure.NewCredentials()))
+					conn, err := grpc.Dial("localhost"+port, grpc.WithTransportCredentials(insecure.NewCredentials())) //Connect to server
 					if err != nil {
 						fmt.Printf(" * Cannot connect to server: %v \n Exiting", err)
 						os.Exit(1)
@@ -78,19 +79,20 @@ func main() {
 					defer conn.Close()
 					client := api.NewSolarServiceClient(conn)
 					fmt.Printf(" * Creating request...\n\n")
+					//Create request based on CLI given flags
 					params := &api.PowerConsumptionRequest{
 						Year:           cCtx.Int64("year"),
 						ResponseAmount: cCtx.Int64("amount"),
 						Region:         cCtx.String("region"),
 						Character:      cCtx.String("character"),
 					}
-					givePowerByArea(client, params)
+					givePowerByArea(client, params) //Calling request method
 					return nil
 				},
 			},
 		},
 	}
-	if err := app.Run(os.Args); err != nil {
+	if err := app.Run(os.Args); err != nil { //Running app
 		log.Fatal(err)
 	}
 }
