@@ -19,7 +19,7 @@ var Variables = map[int]string{
 	6655093: "Miasto",
 	6655153: "Wieś",
 	33617:   "POLSKA",
-	33619:   "MAMŁOPOLSKIE",
+	33619:   "MAŁOPOLSKIE",
 	33929:   "ŚLĄSKIE",
 	34187:   "LUBUSKIE",
 	34353:   "WIELKOPOLSKIE",
