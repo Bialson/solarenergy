@@ -66,6 +66,7 @@ Add the workspace’s `bin` subdirectory to your `$PATH`. You can do this using 
 
 ```powershell
   setx PATH "$($env:path);$GOPATH\bin"
+```
 
 ### Docker 
 
