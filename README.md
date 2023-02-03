@@ -32,6 +32,7 @@ This tool provides interaction with energy consumption data from Poland's Centra
 
 **Server:** `Go + gRPC`
 
+<br>
 
 ## Installation
 
@@ -66,6 +67,8 @@ Add the workspace’s `bin` subdirectory to your `$PATH`. You can do this using 
 ```powershell
   setx PATH "$($env:path);$GOPATH\bin"
 ```
+<br>
+
 ### CLI's installation
 
 Clone repository to your local folder
@@ -118,6 +121,7 @@ To install client and server CLI change directory to `solarenergy-cli` and `sola
 > **Note**
 > Package provides builded files ready to install, if you want to add some changes and then rebuild the preffered CLI, run `go build -o bin/[file_name]` command in it's folder.
 
+<br>
     
 ## Run Locally
 
@@ -141,12 +145,13 @@ If you run `solarenergy-cli` command without params, you should see help page wi
   cd solarenergy-server
   go test
 ```
-
+<br>
 
 ## Client CLI Reference
 
 > **Note**
 > If you don't provide any optional params, data request will be executed with default values
+
 | Parameter | Type     | Value            |
 | :-------- | :------- | :------------------------- |
 | `Year` | `int` | 2020 |
@@ -154,6 +159,7 @@ If you run `solarenergy-cli` command without params, you should see help page wi
 | `Region` | `string` | "" |
 | `Region character` | `string` | "" |
 
+<br>
 
 #### Get all data
 ```bash
@@ -164,6 +170,8 @@ If you run `solarenergy-cli` command without params, you should see help page wi
 | :-------- | :------- | :------------------------- |
 | `get-power, gp` | `string` | **Required**. Get power consumption command |
 | `--year, -y` | `int` | **Optional**. Get power consumption from given year |
+
+<br>
 
 #### Get data from region
 
@@ -176,6 +184,7 @@ If you run `solarenergy-cli` command without params, you should see help page wi
 | `--year, -y` | `int` | **Optional**. Get power consumption from given year |
 |  `--region, -r`  | `string` | **Optional**.  Precise power consumption by region |
 
+<br>
 
 #### Get data by region character
 
@@ -189,6 +198,7 @@ If you run `solarenergy-cli` command without params, you should see help page wi
 | `--region, -r`      | `string` | **Optional**.  Precise power consumption by region |
 | `--character, -ch`      | `string` | **Optional**.  Precise power consumption by region character |
 
+<br>
 
 #### Get data and precise their amount
 
@@ -203,6 +213,7 @@ If you run `solarenergy-cli` command without params, you should see help page wi
 | `--character, -ch`      | `string` | **Optional**.  Precise power consumption by region character |
 | `--amount, -a`      | `int` | **Optional**.  Limit power consumption records |
 
+<br>
 
 ## Params reference
 
