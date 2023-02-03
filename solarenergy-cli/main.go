@@ -15,13 +15,6 @@ const (
 	port = ":8080"
 )
 
-var defaultParams = &api.PowerConsumptionRequest{
-	Year:           2020,
-	ResponseAmount: 10,
-	Region:         "",
-	Character:      "",
-}
-
 func main() {
 	app := &cli.App{
 		EnableBashCompletion: true,
