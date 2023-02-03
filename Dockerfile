@@ -22,8 +22,8 @@ RUN cd solarenergy-server && go build -v -o /usr/local/bin/solarenergy/solarener
 
 RUN go install ./solarenergy-server
 
-COPY run.sh /
+COPY start.sh /
 
 WORKDIR /
 
-ENTRYPOINT [ "/run.sh" ]
+ENTRYPOINT [ "/start.sh" ]
