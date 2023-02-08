@@ -22,7 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SolarServiceClient interface {
-	GetSolarEnergyFromHomesByParams(ctx context.Context, in *PowerConsumptionRequest, opts ...grpc.CallOption) (SolarService_GetSolarEnergyFromHomesByParamsClient, error)
+	GetEnergyFromHomesByParams(ctx context.Context, in *PowerConsumptionRequest, opts ...grpc.CallOption) (SolarService_GetEnergyFromHomesByParamsClient, error)
+	GetEcoEnergyByParams(ctx context.Context, in *EcoEnergyRequest, opts ...grpc.CallOption) (SolarService_GetEcoEnergyByParamsClient, error)
 }
 
 type solarServiceClient struct {
@@ -33,12 +34,12 @@ func NewSolarServiceClient(cc grpc.ClientConnInterface) SolarServiceClient {
 	return &solarServiceClient{cc}
 }
 
-func (c *solarServiceClient) GetSolarEnergyFromHomesByParams(ctx context.Context, in *PowerConsumptionRequest, opts ...grpc.CallOption) (SolarService_GetSolarEnergyFromHomesByParamsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &SolarService_ServiceDesc.Streams[0], "/solarservice.SolarService/GetSolarEnergyFromHomesByParams", opts...)
+func (c *solarServiceClient) GetEnergyFromHomesByParams(ctx context.Context, in *PowerConsumptionRequest, opts ...grpc.CallOption) (SolarService_GetEnergyFromHomesByParamsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &SolarService_ServiceDesc.Streams[0], "/solarservice.SolarService/GetEnergyFromHomesByParams", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &solarServiceGetSolarEnergyFromHomesByParamsClient{stream}
+	x := &solarServiceGetEnergyFromHomesByParamsClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -48,17 +49,49 @@ func (c *solarServiceClient) GetSolarEnergyFromHomesByParams(ctx context.Context
 	return x, nil
 }
 
-type SolarService_GetSolarEnergyFromHomesByParamsClient interface {
+type SolarService_GetEnergyFromHomesByParamsClient interface {
 	Recv() (*PowerFromHomes, error)
 	grpc.ClientStream
 }
 
-type solarServiceGetSolarEnergyFromHomesByParamsClient struct {
+type solarServiceGetEnergyFromHomesByParamsClient struct {
 	grpc.ClientStream
 }
 
-func (x *solarServiceGetSolarEnergyFromHomesByParamsClient) Recv() (*PowerFromHomes, error) {
+func (x *solarServiceGetEnergyFromHomesByParamsClient) Recv() (*PowerFromHomes, error) {
 	m := new(PowerFromHomes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *solarServiceClient) GetEcoEnergyByParams(ctx context.Context, in *EcoEnergyRequest, opts ...grpc.CallOption) (SolarService_GetEcoEnergyByParamsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &SolarService_ServiceDesc.Streams[1], "/solarservice.SolarService/GetEcoEnergyByParams", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &solarServiceGetEcoEnergyByParamsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type SolarService_GetEcoEnergyByParamsClient interface {
+	Recv() (*EcoEnergy, error)
+	grpc.ClientStream
+}
+
+type solarServiceGetEcoEnergyByParamsClient struct {
+	grpc.ClientStream
+}
+
+func (x *solarServiceGetEcoEnergyByParamsClient) Recv() (*EcoEnergy, error) {
+	m := new(EcoEnergy)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -69,7 +102,8 @@ func (x *solarServiceGetSolarEnergyFromHomesByParamsClient) Recv() (*PowerFromHo
 // All implementations must embed UnimplementedSolarServiceServer
 // for forward compatibility
 type SolarServiceServer interface {
-	GetSolarEnergyFromHomesByParams(*PowerConsumptionRequest, SolarService_GetSolarEnergyFromHomesByParamsServer) error
+	GetEnergyFromHomesByParams(*PowerConsumptionRequest, SolarService_GetEnergyFromHomesByParamsServer) error
+	GetEcoEnergyByParams(*EcoEnergyRequest, SolarService_GetEcoEnergyByParamsServer) error
 	mustEmbedUnimplementedSolarServiceServer()
 }
 
@@ -77,8 +111,11 @@ type SolarServiceServer interface {
 type UnimplementedSolarServiceServer struct {
 }
 
-func (UnimplementedSolarServiceServer) GetSolarEnergyFromHomesByParams(*PowerConsumptionRequest, SolarService_GetSolarEnergyFromHomesByParamsServer) error {
-	return status.Errorf(codes.Unimplemented, "method GetSolarEnergyFromHomesByParams not implemented")
+func (UnimplementedSolarServiceServer) GetEnergyFromHomesByParams(*PowerConsumptionRequest, SolarService_GetEnergyFromHomesByParamsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetEnergyFromHomesByParams not implemented")
+}
+func (UnimplementedSolarServiceServer) GetEcoEnergyByParams(*EcoEnergyRequest, SolarService_GetEcoEnergyByParamsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetEcoEnergyByParams not implemented")
 }
 func (UnimplementedSolarServiceServer) mustEmbedUnimplementedSolarServiceServer() {}
 
@@ -93,24 +130,45 @@ func RegisterSolarServiceServer(s grpc.ServiceRegistrar, srv SolarServiceServer)
 	s.RegisterService(&SolarService_ServiceDesc, srv)
 }
 
-func _SolarService_GetSolarEnergyFromHomesByParams_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _SolarService_GetEnergyFromHomesByParams_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(PowerConsumptionRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(SolarServiceServer).GetSolarEnergyFromHomesByParams(m, &solarServiceGetSolarEnergyFromHomesByParamsServer{stream})
+	return srv.(SolarServiceServer).GetEnergyFromHomesByParams(m, &solarServiceGetEnergyFromHomesByParamsServer{stream})
 }
 
-type SolarService_GetSolarEnergyFromHomesByParamsServer interface {
+type SolarService_GetEnergyFromHomesByParamsServer interface {
 	Send(*PowerFromHomes) error
 	grpc.ServerStream
 }
 
-type solarServiceGetSolarEnergyFromHomesByParamsServer struct {
+type solarServiceGetEnergyFromHomesByParamsServer struct {
 	grpc.ServerStream
 }
 
-func (x *solarServiceGetSolarEnergyFromHomesByParamsServer) Send(m *PowerFromHomes) error {
+func (x *solarServiceGetEnergyFromHomesByParamsServer) Send(m *PowerFromHomes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _SolarService_GetEcoEnergyByParams_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(EcoEnergyRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(SolarServiceServer).GetEcoEnergyByParams(m, &solarServiceGetEcoEnergyByParamsServer{stream})
+}
+
+type SolarService_GetEcoEnergyByParamsServer interface {
+	Send(*EcoEnergy) error
+	grpc.ServerStream
+}
+
+type solarServiceGetEcoEnergyByParamsServer struct {
+	grpc.ServerStream
+}
+
+func (x *solarServiceGetEcoEnergyByParamsServer) Send(m *EcoEnergy) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -123,8 +181,13 @@ var SolarService_ServiceDesc = grpc.ServiceDesc{
 	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "GetSolarEnergyFromHomesByParams",
-			Handler:       _SolarService_GetSolarEnergyFromHomesByParams_Handler,
+			StreamName:    "GetEnergyFromHomesByParams",
+			Handler:       _SolarService_GetEnergyFromHomesByParams_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetEcoEnergyByParams",
+			Handler:       _SolarService_GetEcoEnergyByParams_Handler,
 			ServerStreams: true,
 		},
 	},
