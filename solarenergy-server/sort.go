@@ -2,10 +2,10 @@ package main
 
 //Method for filtering data by region
 
-func FilterByRegion(region string) []EnergyElement {
-	result := []EnergyElement{}
+func FilterByRegion(region string) []ResponseElement {
+	result := []ResponseElement{}
 	for i := range EnergyDataArr {
-		if Variables[int(EnergyDataArr[i].IdPozycja1)] == region {
+		if Regions[int(EnergyDataArr[i].IdPozycja1)] == region {
 			result = append(result, EnergyDataArr[i])
 		}
 	}
@@ -14,10 +14,10 @@ func FilterByRegion(region string) []EnergyElement {
 
 //Method for filtering data by character
 
-func FilterByCharacter(character string) []EnergyElement {
-	result := []EnergyElement{}
+func FilterByCharacter(character string) []ResponseElement {
+	result := []ResponseElement{}
 	for i := range EnergyDataArr {
-		if Variables[int(EnergyDataArr[i].IdPozycja2)] == character {
+		if Regions[int(EnergyDataArr[i].IdPozycja2)] == character {
 			result = append(result, EnergyDataArr[i])
 		}
 	}
@@ -26,10 +26,10 @@ func FilterByCharacter(character string) []EnergyElement {
 
 //Method for filtering data by region and character
 
-func FilterByCharacterAndRegion(character, region string) []EnergyElement {
-	result := []EnergyElement{}
+func FilterByCharacterAndRegion(character, region string) []ResponseElement {
+	result := []ResponseElement{}
 	for i := range EnergyDataArr {
-		if Variables[int(EnergyDataArr[i].IdPozycja2)] == character && Variables[int(EnergyDataArr[i].IdPozycja1)] == region {
+		if Regions[int(EnergyDataArr[i].IdPozycja2)] == character && Regions[int(EnergyDataArr[i].IdPozycja1)] == region {
 			result = append(result, EnergyDataArr[i])
 		}
 	}
@@ -38,12 +38,12 @@ func FilterByCharacterAndRegion(character, region string) []EnergyElement {
 
 //QuickSort implementation for sorting data by region in descending order
 
-func partition(arr []EnergyElement, left, right int) ([]EnergyElement, int) {
-	//Comparing each request is based on the decoded region from Variables array (variables.go)
-	pivot := Variables[int(arr[right].IdPozycja1)]
+func partition(arr []ResponseElement, left, right int) ([]ResponseElement, int) {
+	//Comparing each request is based on the decoded region from Regions array (variables.go)
+	pivot := Regions[int(arr[right].IdPozycja1)]
 	i := left
 	for j := left; j < right; j++ {
-		if Variables[int(arr[j].IdPozycja1)] <= pivot {
+		if Regions[int(arr[j].IdPozycja1)] <= pivot {
 			arr[i], arr[j] = arr[j], arr[i]
 			i++
 		}
@@ -52,7 +52,7 @@ func partition(arr []EnergyElement, left, right int) ([]EnergyElement, int) {
 	return arr, i
 }
 
-func QuickSortByRegion(arr []EnergyElement, left, right int) []EnergyElement {
+func QuickSortByRegion(arr []ResponseElement, left, right int) []ResponseElement {
 	if left < right {
 		var p int
 		arr, p = partition(EnergyDataArr, left, right)
