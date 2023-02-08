@@ -18,7 +18,7 @@ import (
 
 func (s *solarServer) GetSolarEnergyFromHomesByParams(req *api.PowerConsumptionRequest, stream api.SolarService_GetSolarEnergyFromHomesByParamsServer) error {
 	log.Printf("Received params: %v", req)
-	dataURL := fmt.Sprintf("https://api-dbw.stat.gov.pl/api/1.1.0/variable/variable-data-section?sorts=id-pozycja-2&id-zmienna=%v&id-przekroj=%v&id-rok=%d&id-okres=%v&ile-na-stronie=%d&numer-strony=0&lang=pl", DATA_CAT, SECTION, req.Year, PERIOD, MAX_RESULTS) //URL for data request based on request parameters
+	dataURL := fmt.Sprintf("https://api-dbw.stat.gov.pl/api/1.1.0/variable/variable-data-section?sorts=id-pozycja-2&id-zmienna=%v&id-przekroj=%v&id-rok=%d&id-okres=%v&ile-na-stronie=%d&numer-strony=0&lang=pl", DATA_CAT, SECTION_1, req.Year, PERIOD, MAX_RESULTS) //URL for data request based on request parameters
 	log.Printf("Requesting data from: %s", dataURL)
 	dataReq, err := http.Get(dataURL) //Requesting data from URL
 	if err != nil {
@@ -34,24 +34,15 @@ func (s *solarServer) GetSolarEnergyFromHomesByParams(req *api.PowerConsumptionR
 		if err != nil {
 			log.Fatalf("Could not read data: %v", err)
 		}
-		var dataJSON interface{}
-		//Unmarshalling data from response body to JSON
-		err = json.Unmarshal(dataRes, &dataJSON)
-		if err != nil {
-			log.Fatalf("Could not unmarshal data: %v", err)
+		dataJSON := EnergyData{}
+		//Unmarshalling JSON data to EnergyData struct
+		err = json.Unmarshal([]byte(dataRes), &dataJSON)
+		log.Printf("Data received count: %v", len(dataJSON.Energy))
+		EnergyDataArr = dataJSON.Energy
+		for _, el := range EnergyDataArr {
+			fmt.Println(el)
 		}
-		energyJSON := dataJSON.(map[string]interface{})["data"].([]interface{}) //Destucturing JSON to get energy data map
-		log.Printf("Data received count: %v", len(energyJSON))
-		for _, occurence := range energyJSON {
-			encodedEnergyJSONElement, _ := json.Marshal(occurence) //Encoding to bytes each element
-			var el EnergyElement
-			err = json.Unmarshal([]byte(encodedEnergyJSONElement), &el) //Unmarshalling to EnergyElement struct
-			if err != nil {
-				log.Fatalf("Could not unmarshal data: %v", err)
-			}
-			EnergyDataArr = append(EnergyDataArr, el)
-		}
-		//Filtering data based on request parameters
+		// Filtering data based on request parameters
 		if req.Region != "" && req.Character != "" {
 			EnergyDataArrFiltered = FilterByCharacterAndRegion(req.Character, req.Region)
 		} else if req.Character != "" {
@@ -74,10 +65,10 @@ func (s *solarServer) GetSolarEnergyFromHomesByParams(req *api.PowerConsumptionR
 				Value:     el.Wartosc,
 				Period:    Variables[int(el.IdOkres)],
 				Year:      el.IdDaty,
-				Unit:      Variables[int(el.IdSposobPrezentacjiMiara)],
+				Unit:      Units[int(el.IdSposobPrezentacjiMiara)],
 				Precision: el.Precyzja,
-				Region:    Variables[int(el.IdPozycja1)],
-				Character: Variables[int(el.IdPozycja2)],
+				Region:    Regions[int(el.IdPozycja1)],
+				Character: Regions[int(el.IdPozycja2)],
 			}
 			err = stream.Send(res) //Sending response message to stream
 			if err != nil {
