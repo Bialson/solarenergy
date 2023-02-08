@@ -5,7 +5,7 @@ option go_package = "./proto";
 package solarservice;
 
 service SolarService{
-    rpc GetSolarEnergyFromHomesByParams (PowerConsumptionRequest) returns (stream PowerFromHomes) {}
+    rpc GetEnergyFromHomesByParams (PowerConsumptionRequest) returns (stream PowerFromHomes) {}
 }
 
 message PowerConsumptionRequest {

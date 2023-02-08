@@ -16,7 +16,7 @@ import (
 
 //Method is responsible for getting energy consumption data from API DBW, filtering it and sending response to client
 
-func (s *solarServer) GetSolarEnergyFromHomesByParams(req *api.PowerConsumptionRequest, stream api.SolarService_GetSolarEnergyFromHomesByParamsServer) error {
+func (s *solarServer) GetEnergyFromHomesByParams(req *api.PowerConsumptionRequest, stream api.SolarService_GetEnergyFromHomesByParamsServer) error {
 	log.Printf("Received params: %v", req)
 	dataURL := fmt.Sprintf("https://api-dbw.stat.gov.pl/api/1.1.0/variable/variable-data-section?sorts=id-pozycja-2&id-zmienna=%v&id-przekroj=%v&id-rok=%d&id-okres=%v&ile-na-stronie=%d&numer-strony=0&lang=pl", DATA_CAT, SECTION_1, req.Year, PERIOD, MAX_RESULTS) //URL for data request based on request parameters
 	log.Printf("Requesting data from: %s", dataURL)

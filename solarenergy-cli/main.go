@@ -86,7 +86,7 @@ func main() {
 						Region:         cCtx.String("region"),
 						Character:      cCtx.String("character"),
 					}
-					givePowerByArea(client, params) //Calling request method
+					GetEnergyConsumptionByArea(client, params) //Calling request method
 					return nil
 				},
 			},

@@ -110,7 +110,7 @@ func TestGetSolarEnergy(t *testing.T) {
 	for scenario, tt := range tests {
 		t.Run(scenario, func(t *testing.T) {
 			log.Printf("Test: %s", scenario)
-			stream, err := client.GetSolarEnergyFromHomesByParams(ctx, tt.in)
+			stream, err := client.GetEnergyFromHomesByParams(ctx, tt.in)
 			var outs []*api.PowerFromHomes
 			for {
 				message, err := stream.Recv()

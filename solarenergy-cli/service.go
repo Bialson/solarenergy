@@ -9,8 +9,8 @@ import (
 	api "github.com/Bialson/solarenergy/proto"
 )
 
-func givePowerByArea(client api.SolarServiceClient, params *api.PowerConsumptionRequest) {
-	stream, err := client.GetSolarEnergyFromHomesByParams(context.Background(), params) //Calling request for gathering energy data from gRPC server
+func GetEnergyConsumptionByArea(client api.SolarServiceClient, params *api.PowerConsumptionRequest) {
+	stream, err := client.GetEnergyFromHomesByParams(context.Background(), params) //Calling request for gathering energy data from gRPC server
 	if err != nil {
 		log.Fatalf("Could not send params: %v", err)
 	}
