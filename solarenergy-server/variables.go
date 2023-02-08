@@ -5,20 +5,31 @@ package main
 const (
 	DATA_CAT    = 1002
 	PERIOD      = 282
-	SECTION     = 156
+	SECTION_1   = 156
+	SECTION_2   = 865
 	MAX_RESULTS = 204
 )
 
 // Variables for decoding data from API DBW response
 
 var Variables = map[int]string{
-	1002:    "Energia elektryczna",
-	282:     "Rok - dane roczne",
-	156:     "Polska, województwa; Charakter miejscowości",
-	186:     "[MWh]",
-	187:     "[kWh]",
-	188:     "[kWh] - na 1 mieszkańca",
-	189:     "[kWh] - na 1 odbiorcę",
+	156:  "Polska, województwa; Charakter miejscowości",
+	232:  "Pozyskanie energii",
+	237:  "Zużycie bezpośrednie energii",
+	282:  "Rok - dane roczne",
+	865:  "Polska, Nośniki energii odnawialnej",
+	1002: "Zużycie energii elektrycznej w gospodarstwach domowych",
+	1080: "Zużycie ogółem nośników energii",
+}
+
+var Units = map[int]string{
+	186: "[MWh]",
+	187: "[kWh]",
+	188: "[kWh] - na 1 mieszkańca",
+	189: "[kWh] - na 1 odbiorcę",
+}
+
+var Regions = map[int]string{
 	6655092: "Ogółem",
 	6655093: "Miasto",
 	6655153: "Wieś",
@@ -41,9 +52,23 @@ var Variables = map[int]string{
 	37380:   "MAZOWIECKIE",
 }
 
-//Struct for decoding data record from API DBW response
+var Types = map[int]string{
+	1273014: "Energia słoneczna",
+	1273015: "Energia wiatrowa",
+	7065509: "Energia geotermalna",
+	7065599: "Energia wodna",
+	7065591: "Energia z ogniw fotowoltaicznych",
+}
 
-type EnergyElement struct {
+// var Tags = map[int]string{}
+
+//Struct for decoding data array from API DBW response
+type EnergyData struct {
+	Energy []ResponseElement `json:"data"`
+}
+
+//Struct for decoding data record from API DBW response
+type ResponseElement struct {
 	Rownumber                int64   `json:"rownumber"`
 	IdZmienna                int64   `json:"id-zmienna"`
 	IdPrzekroj               int64   `json:"id-przekroj"`
@@ -61,7 +86,6 @@ type EnergyElement struct {
 	Precyzja                 int64   `json:"precyzja"`
 }
 
-//Arrays for storing data from API DBW response and filtered data
-
-var EnergyDataArr []EnergyElement
-var EnergyDataArrFiltered []EnergyElement
+//Arrays for storing decoded data from JSON response and filtered data
+var EnergyDataArr []ResponseElement = make([]ResponseElement, 204)
+var EnergyDataArrFiltered []ResponseElement
