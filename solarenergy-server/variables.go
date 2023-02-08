@@ -60,8 +60,6 @@ var Types = map[int]string{
 	7065591: "Energia z ogniw fotowoltaicznych",
 }
 
-// var Tags = map[int]string{}
-
 //Struct for decoding data array from API DBW response
 type EnergyData struct {
 	Energy []ResponseElement `json:"data"`
