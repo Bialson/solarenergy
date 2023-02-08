@@ -1,5 +1,28 @@
 package main
 
+import (
+	"encoding/json"
+	"io/ioutil"
+	"log"
+	"net/http"
+)
+
+func ExtractJSONData(response *http.Response) (energy []ResponseElement, error error) {
+	//Struct for extracing "data" field from JSON response
+	data := EnergyData{}
+	resData, err := ioutil.ReadAll(response.Body) //Reading response body
+	if err != nil {
+		log.Fatalf("Could not read data: %v", err)
+	}
+	//Unmarshalling data field to EnergyData struct
+	err = json.Unmarshal([]byte(resData), &data)
+	if err != nil { //Checking for errors
+		log.Fatalf("Could not unmarshal data: %v", err)
+		return data.Energy, err
+	}
+	return data.Energy, nil //Returning data.Energy arr
+}
+
 //Method for filtering data by region
 
 func FilterByRegion(region string) []ResponseElement {
@@ -30,6 +53,18 @@ func FilterByCharacterAndRegion(character, region string) []ResponseElement {
 	result := []ResponseElement{}
 	for i := range EnergyDataArr {
 		if Regions[int(EnergyDataArr[i].IdPozycja2)] == character && Regions[int(EnergyDataArr[i].IdPozycja1)] == region {
+			result = append(result, EnergyDataArr[i])
+		}
+	}
+	return result
+}
+
+//Method for filtering data by type of energy
+
+func FilterByTypeOfEnergy(typeOfEnergy string) []ResponseElement {
+	result := []ResponseElement{}
+	for i := range EnergyDataArr {
+		if Types[int(EnergyDataArr[i].IdPozycja2)] == typeOfEnergy {
 			result = append(result, EnergyDataArr[i])
 		}
 	}
