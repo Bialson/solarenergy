@@ -23,6 +23,43 @@ func main() {
 		Usage:                "Power consumption from homes by area in Poland",
 		Commands: []*cli.Command{
 			{
+				Name:    "eco-energy",
+				Usage:   "Get energy from renewable sources in Poland",
+				Aliases: []string{"eco"},
+				Flags: []cli.Flag{
+					&cli.IntFlag{
+						Name:    "year",
+						Aliases: []string{"y"},
+						Usage:   "Set year to get energy from",
+						Value:   2020,
+						Action: func(cCtx *cli.Context, v int) error {
+							if v < 2010 {
+								return fmt.Errorf("Year cannot be lower than 2010")
+							}
+							return nil
+						},
+					},
+					&cli.IntFlag{
+						Name:    "amount",
+						Aliases: []string{"a"},
+						Usage:   "Set amount of results to get",
+						Value:   0,
+						Action: func(cCtx *cli.Context, v int) error {
+							if v > 80 {
+								return fmt.Errorf("Results amount cannot be higher than 204")
+							}
+							return nil
+						},
+					},
+					&cli.StringFlag{
+						Name:    "type",
+						Aliases: []string{"t"},
+						Usage:   "Set type of renewable source to get energy from",
+						Value:   "",
+					},
+				},
+			},
+			{
 				Name:    "get-power",
 				Usage:   "Get power consumption from homes by area in Poland",
 				Aliases: []string{"gp"},
@@ -86,7 +123,7 @@ func main() {
 						Region:         cCtx.String("region"),
 						Character:      cCtx.String("character"),
 					}
-					givePowerByArea(client, params) //Calling request method
+					GetEnergyFromHomes(client, params) //Calling request method
 					return nil
 				},
 			},
