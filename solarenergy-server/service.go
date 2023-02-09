@@ -43,11 +43,11 @@ func (s *solarServer) GetEnergyFromHomesByParams(req *api.PowerConsumptionReques
 			EnergyDataArrFiltered = EnergyDataArr
 			QuickSortByRegion(EnergyDataArrFiltered, 0, len(EnergyDataArrFiltered)-1)
 		}
-		log.Printf("Filtered data count: %v", len(EnergyDataArrFiltered))
 		//Limiting number of response elements
-		if req.ResponseAmount != 0 && int(req.ResponseAmount) < len(EnergyDataArrFiltered) {
+		if req.ResponseAmount > 0 && int(req.ResponseAmount) < len(EnergyDataArrFiltered) {
 			EnergyDataArrFiltered = EnergyDataArrFiltered[:req.ResponseAmount]
 		}
+		log.Printf("Filtered data count: %v", len(EnergyDataArrFiltered))
 		for _, el := range EnergyDataArrFiltered {
 			//Generating response message
 			res := &api.PowerFromHomes{
@@ -65,6 +65,7 @@ func (s *solarServer) GetEnergyFromHomesByParams(req *api.PowerConsumptionReques
 			}
 		}
 		EnergyDataArr = nil
+		EnergyDataArrFiltered = nil
 	}
 	return nil
 }
@@ -87,16 +88,20 @@ func (s *solarServer) GetEcoEnergyByParams(req *api.EcoEnergyRequest, stream api
 			log.Fatalf("Could not extract data: %v", err)
 		}
 		// Filtering data based on requested type
-		if req.Type != "" {
-			EnergyDataArrFiltered = FilterByTypeOfEnergy(req.Type)
+		if req.Type != "" && req.Unit != "" {
+			EnergyDataArrFiltered = FilterByTypeAndUnit(req.Type, req.Unit)
+		} else if req.Type != "" {
+			EnergyDataArrFiltered = FilterByTypeOfSource(req.Type)
+		} else if req.Unit != "" {
+			EnergyDataArrFiltered = FilterByEnergyUnit(req.Unit)
 		} else {
 			EnergyDataArrFiltered = EnergyDataArr
 		}
-		log.Printf("Filtered data count: %v", len(EnergyDataArrFiltered))
 		//Limiting number of response elements
-		if req.ResponseAmount != 0 && int(req.ResponseAmount) < len(EnergyDataArrFiltered) {
+		if req.ResponseAmount > 0 && int(req.ResponseAmount) < len(EnergyDataArrFiltered) {
 			EnergyDataArrFiltered = EnergyDataArrFiltered[:req.ResponseAmount]
 		}
+		log.Printf("Filtered data count: %v", len(EnergyDataArrFiltered))
 		for _, el := range EnergyDataArrFiltered {
 			//Generating response message
 			res := &api.EcoEnergy{
