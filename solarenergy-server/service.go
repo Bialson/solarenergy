@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 
@@ -30,13 +30,16 @@ func (s *solarServer) GetEnergyFromHomesByParams(req *api.PowerConsumptionReques
 	if status != 200 {
 		log.Printf("Bad request or server not responding, ERR_CODE: %v", status)
 	} else {
-		dataRes, err := ioutil.ReadAll(dataReq.Body) //Reading response body
+		dataRes, err := io.ReadAll(dataReq.Body) //Reading response body
 		if err != nil {
 			log.Fatalf("Could not read data: %v", err)
 		}
 		dataJSON := EnergyData{}
 		//Unmarshalling JSON data to EnergyData struct
 		err = json.Unmarshal([]byte(dataRes), &dataJSON)
+		if err != nil {
+			log.Fatalf("Could not unmarshal data: %v", err)
+		}
 		log.Printf("Data received count: %v", len(dataJSON.Energy))
 		EnergyDataArr = dataJSON.Energy
 		for _, el := range EnergyDataArr {
