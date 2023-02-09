@@ -30,6 +30,7 @@ message EcoEnergyRequest {
     int64 year = 1;
     int64 responseAmount = 2;
     string type = 3;
+    string unit = 4;
 }
 
 message EcoEnergy {

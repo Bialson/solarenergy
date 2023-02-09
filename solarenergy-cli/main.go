@@ -7,8 +7,6 @@ import (
 
 	api "github.com/Bialson/solarenergy/proto"
 	"github.com/urfave/cli/v2"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 )
 
 const (
@@ -57,6 +55,35 @@ func main() {
 						Usage:   "Set type of renewable source to get energy from",
 						Value:   "",
 					},
+					&cli.StringFlag{
+						Name:    "unit",
+						Aliases: []string{"u"},
+						Usage:   "Set unit of energy amount",
+						Value:   "",
+					},
+				},
+				Action: func(cCtx *cli.Context) error {
+					fmt.Printf("SolarEnergy Service Client v0.5.0\n\n")
+					fmt.Println("Given parameters:")
+					fmt.Printf("Type: %s, Year: %d, Amount: %d\n", cCtx.String("type"), cCtx.Int("year"), cCtx.Int("amount"))
+					fmt.Println(" * Connecting to server...")
+					//Create client connection to server
+					client, err, conn := CreateClient()
+					defer conn.Close()
+					if err != nil {
+						fmt.Printf("Error while connecting to server: %v", err)
+						os.Exit(1)
+					}
+					fmt.Printf(" * Creating request...\n\n")
+					//Create request based on CLI given flags
+					params := &api.EcoEnergyRequest{
+						Year:           cCtx.Int64("year"),
+						ResponseAmount: cCtx.Int64("amount"),
+						Type:           cCtx.String("type"),
+						Unit:           cCtx.String("unit"),
+					}
+					GetEcoEnergy(client, params) //Calling request method
+					return nil
 				},
 			},
 			{
@@ -106,15 +133,13 @@ func main() {
 					fmt.Println("Given parameters:")
 					fmt.Printf("Region: %s, Character: %s, Year: %d, Amount: %d\n", cCtx.String("region"), cCtx.String("character"), cCtx.Int("year"), cCtx.Int("amount"))
 					fmt.Println(" * Connecting to server...")
-					conn, err := grpc.Dial("localhost"+port, grpc.WithTransportCredentials(insecure.NewCredentials())) //Connect to server
-					if err != nil {
-						fmt.Printf(" * Cannot connect to server: %v \n Exiting", err)
-						os.Exit(1)
-					} else {
-						fmt.Println(" * Connected to server!")
-					}
+					//Create client connection to server
+					client, err, conn := CreateClient()
 					defer conn.Close()
-					client := api.NewSolarServiceClient(conn)
+					if err != nil {
+						fmt.Printf("Error while connecting to server: %v", err)
+						os.Exit(1)
+					}
 					fmt.Printf(" * Creating request...\n\n")
 					//Create request based on CLI given flags
 					params := &api.PowerConsumptionRequest{

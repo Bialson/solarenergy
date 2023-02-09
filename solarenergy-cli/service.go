@@ -33,8 +33,9 @@ func GetEnergyFromHomes(client api.SolarServiceClient, params *api.PowerConsumpt
 		fmt.Printf("\tPrecision: %v \n", message.Precision)
 		fmt.Printf("\tRegion: %v \n", message.Region)
 		fmt.Printf("\tCharacted: %v \n", message.Character)
+		fmt.Printf("-------------------------------------------------\n\n")
 	}
-	log.Printf("Streaming finished!")
+	log.Println("Streaming finished!")
 }
 
 func GetEcoEnergy(client api.SolarServiceClient, params *api.EcoEnergyRequest) {
@@ -61,6 +62,7 @@ func GetEcoEnergy(client api.SolarServiceClient, params *api.EcoEnergyRequest) {
 		fmt.Printf("\tPrecision: %v \n", message.Precision)
 		fmt.Printf("\tType: %v \n", message.Type)
 		fmt.Printf("\tRegion: %v \n", message.Region)
+		fmt.Printf("-------------------------------------------------\n\n")
 	}
-	log.Printf("Streaming finished!")
+	log.Println("Streaming finished!")
 }
