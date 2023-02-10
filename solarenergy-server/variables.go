@@ -11,6 +11,8 @@ const (
 	MAX_RESULTS = 204
 )
 
+// var EnergyDataArrFiltered []ResponseElement
+
 // Variables for decoding data from API DBW response
 
 var Variables = map[int]string{
@@ -83,9 +85,6 @@ var Types = map[int]string{
 // var Tags = map[int]string{}
 
 //Struct for decoding data array from API DBW response
-type EnergyData struct {
-	Energy []ResponseElement `json:"data"`
-}
 
 //Struct for decoding data record from API DBW response
 type ResponseElement struct {
@@ -107,5 +106,4 @@ type ResponseElement struct {
 }
 
 //Arrays for storing decoded data from JSON response and filtered data
-var EnergyDataArr []ResponseElement = make([]ResponseElement, 204)
-var EnergyDataArrFiltered []ResponseElement
+// type EnergyData []ResponseElement
