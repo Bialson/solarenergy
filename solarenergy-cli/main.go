@@ -119,7 +119,7 @@ func main() {
 						Name:    "amount",
 						Aliases: []string{"a"},
 						Usage:   "Set amount of results to get",
-						Value:   0,
+						Value:   204,
 						Action: func(cCtx *cli.Context, v int) error {
 							if v > 204 {
 								return fmt.Errorf("Results amount cannot be higher than 204")
