@@ -24,22 +24,10 @@ func (s *solarServer) GetEnergyFromHomesByParams(req *api.PowerConsumptionReques
 	if status := res.StatusCode; status != 200 { //Identyfing status code of response
 		log.Printf("Bad request or server not responding, ERR_CODE: %v", status)
 	} else {
-		filters := map[string]string{
-			"region":    req.Region,
-			"character": req.Character,
-		}
-		EnergyService.ApplyFilters(filters)
-		// switch {
-		// case req.Region != "" && req.Character != "":
-		// 	EnergyService.FilterByCharacterAndRegion(req.Character, req.Region)
-		// case req.Character != "":
-		// 	EnergyService.FilterByCharacter(req.Character)
-		// case req.Region != "":
-		// 	EnergyService.FilterByRegion(req.Region)
-		// }
-		// EnergyService.QuickSortByRegion(0, len(EnergyDataArr.Energy)-1)
-		log.Printf("Filtered data count: %v", len(EnergyDataArr.Energy))
-		for _, el := range EnergyDataArr.Energy[:req.ResponseAmount] {
+		filters := map[string]string{"region": req.Region, "character": req.Character}
+		EnergyService.ApplyFilters(filters, req.ResponseAmount)
+		EnergyService.SortByRegion(0, len(EnergyDataArr.Energy)-1)
+		for _, el := range EnergyDataArr.Energy {
 			//Generating response message
 			res := &api.PowerFromHomes{
 				Value:     el.Wartosc,
@@ -61,6 +49,15 @@ func (s *solarServer) GetEnergyFromHomesByParams(req *api.PowerConsumptionReques
 
 func (s *solarServer) GetEcoEnergyByParams(req *api.EcoEnergyRequest, stream api.SolarService_GetEcoEnergyByParamsServer) error {
 	log.Printf("Received params: %v", req)
+	res := EnergyService.RequestDBWData(req.Year, DATA_CAT_2, SECTION_2)
+	defer res.Body.Close()
+	EnergyService.ExtractJSONData(res)
+	if status := res.StatusCode; status != 200 { //Identyfing status code of response
+		log.Printf("Bad request or server not responding, ERR_CODE: %v", status)
+	} else {
+		filters := map[string]string{"unit": req.Unit, "type": req.Type}
+		EnergyService.ApplyFilters(filters, req.ResponseAmount)
+	}
 	// dataRes := RequestDBWData(req.Year, DATA_CAT_2, SECTION_2)
 	// defer dataRes.Body.Close()
 	// if status := dataRes.StatusCode; status != 200 { //Identyfing status code of response

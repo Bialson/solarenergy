@@ -16,19 +16,31 @@ type Energy interface {
 	RequestDBWData(year, cat, section int64) *http.Response
 	ExtractJSONData(response *http.Response) (energy []ResponseElement)
 	FilterByRegion(region string) (energy []ResponseElement)
-	ApplyFilters(filters map[string]string)
+	ApplyFilters(filters map[string]string, amount int64)
+	FilterByCharacter(character string) []ResponseElement
+	SortByRegion(left, right int) []ResponseElement
 }
 
-func (arr *EnergyData) ApplyFilters(filters map[string]string) {
+func (arr *EnergyData) ApplyFilters(filters map[string]string, amount int64) {
 	fmt.Println("Applying filters...")
 	for filter, value := range filters {
 		switch {
 		case filter == "region" && value != "":
-			fmt.Println("Filtering by region...")
+			fmt.Printf("Filtering by region... [%v]\n", value)
+			EnergyService.FilterByRegion(value)
 		case filter == "character" && value != "":
-			fmt.Println("Filtering by character...")
+			fmt.Printf("Filtering by character... [%v]\n", value)
+		case filter == "type":
+			fmt.Printf("Filtering by type... [%v]\n", value)
+		case filter == "unit":
+			fmt.Printf("Filtering by unit... [%v]\n", value)
 		}
 	}
+	if amount > int64(len(arr.Energy)) {
+		amount = int64(len(arr.Energy))
+	}
+	*arr = EnergyData{Energy: arr.Energy[:amount]}
+	log.Printf("Filtered data count: %v", len(EnergyDataArr.Energy))
 }
 
 func (arr *EnergyData) RequestDBWData(year, cat, section int64) *http.Response {
@@ -44,20 +56,17 @@ func (arr *EnergyData) RequestDBWData(year, cat, section int64) *http.Response {
 }
 
 func (arr *EnergyData) ExtractJSONData(response *http.Response) (energy []ResponseElement) {
-	//Struct for extracing "data" field from JSON response
-	// data := EnergyData{}
 	resData, err := io.ReadAll(response.Body) //Reading response body
 	if err != nil {
 		log.Fatalf("Could not read data: %v", err)
 	}
-	//Unmarshalling data field to EnergyData struct
 	err = json.Unmarshal([]byte(resData), &arr)
 	if err != nil { //Checking for errors
 		log.Fatalf("Could extract data: %v", err)
 		return nil
 	}
-	*arr = EnergyData{Energy: arr.Energy} //Saving data.Energy to EnergyDataArr
-	return arr.Energy                     //Returning data.Energy arr
+	*arr = EnergyData{Energy: arr.Energy}
+	return arr.Energy
 }
 
 // Method for filtering data by region
@@ -69,57 +78,49 @@ func (arr *EnergyData) FilterByRegion(region string) []ResponseElement {
 		}
 	}
 	if len(result) > 0 {
-		arr.Energy = result
+		*arr = EnergyData{Energy: result}
 	}
 	return result
 }
 
-// // Method for filtering data by character
-// func FilterByCharacter(character string) []ResponseElement {
-// 	result := []ResponseElement{}
-// 	for i := range EnergyDataArr {
-// 		if Regions[int(EnergyDataArr[i].IdPozycja2)] == character {
-// 			result = append(result, EnergyDataArr[i])
-// 		}
-// 	}
-// 	return result
-// }
+// Method for filtering data by character
+func (arr *EnergyData) FilterByCharacter(character string) []ResponseElement {
+	result := []ResponseElement{}
+	for i := range arr.Energy {
+		if Regions[int(arr.Energy[i].IdPozycja2)] == character {
+			result = append(result, arr.Energy[i])
+		}
+	}
+	if len(result) > 0 {
+		*arr = EnergyData{Energy: arr.Energy}
+	}
+	return result
+}
 
-// // Method for filtering data by region and character
-// func FilterByCharacterAndRegion(character, region string) []ResponseElement {
-// 	result := []ResponseElement{}
-// 	for i := range EnergyDataArr {
-// 		if Regions[int(EnergyDataArr[i].IdPozycja2)] == character && Regions[int(EnergyDataArr[i].IdPozycja1)] == region {
-// 			result = append(result, EnergyDataArr[i])
-// 		}
-// 	}
-// 	return result
-// }
+// QuickSort implementation for sorting data by region in descending order
+func partition(arr []ResponseElement, left, right int) ([]ResponseElement, int) {
+	//Comparing each request is based on the decoded region from Regions array (variables.go)
+	pivot := Regions[int(arr[right].IdPozycja1)]
+	i := left
+	for j := left; j < right; j++ {
+		if Regions[int(arr[j].IdPozycja1)] <= pivot {
+			arr[i], arr[j] = arr[j], arr[i]
+			i++
+		}
+	}
+	arr[i], arr[right] = arr[right], arr[i]
+	return arr, i
+}
 
-// // QuickSort implementation for sorting data by region in descending order
-// func partition(arr []ResponseElement, left, right int) ([]ResponseElement, int) {
-// 	//Comparing each request is based on the decoded region from Regions array (variables.go)
-// 	pivot := Regions[int(arr[right].IdPozycja1)]
-// 	i := left
-// 	for j := left; j < right; j++ {
-// 		if Regions[int(arr[j].IdPozycja1)] <= pivot {
-// 			arr[i], arr[j] = arr[j], arr[i]
-// 			i++
-// 		}
-// 	}
-// 	arr[i], arr[right] = arr[right], arr[i]
-// 	return arr, i
-// }
-
-// func QuickSortByRegion(arr []ResponseElement, left, right int) []ResponseElement {
-// 	if left < right {
-// 		var p int
-// 		arr, p = partition(EnergyDataArr, left, right)
-// 		arr = QuickSortByRegion(arr, left, p-1)
-// 		arr = QuickSortByRegion(arr, p+1, right)
-// 	}
-// 	return arr
-// }
+func (arr *EnergyData) SortByRegion(left, right int) []ResponseElement {
+	if left < right {
+		var p int
+		arr.Energy, p = partition(arr.Energy, left, right)
+		arr.Energy = EnergyService.SortByRegion(left, p-1)
+		arr.Energy = EnergyService.SortByRegion(p+1, right)
+	}
+	return arr.Energy
+}
 
 // // Method for filtering data by type of energy source
 // func FilterByTypeOfSource(typeOfEnergy string) []ResponseElement {
