@@ -148,11 +148,7 @@ func main() {
 						Region:         cCtx.String("region"),
 						Character:      cCtx.String("character"),
 					}
-<<<<<<< HEAD
-					GetEnergyConsumptionByArea(client, params) //Calling request method
-=======
 					GetEnergyFromHomes(client, params) //Calling request method
->>>>>>> feature/energy_from_eco_sources
 					return nil
 				},
 			},
