@@ -32,7 +32,7 @@ func GetEnergyFromHomes(client api.SolarServiceClient, params *api.PowerConsumpt
 		fmt.Printf("\tUnit: %v \n", message.Unit)
 		fmt.Printf("\tPrecision: %v \n", message.Precision)
 		fmt.Printf("\tRegion: %v \n", message.Region)
-		fmt.Printf("\tCharacted: %v \n", message.Character)
+		fmt.Printf("\tCharacter: %v \n", message.Character)
 		fmt.Printf("-------------------------------------------------\n\n")
 	}
 	log.Println("Streaming finished!")
