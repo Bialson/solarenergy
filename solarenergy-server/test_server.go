@@ -17,7 +17,7 @@ const (
 //Test server for testing purposes
 
 func TestServer(ctx context.Context) (api.SolarServiceClient, func()) {
-	lis, err := net.Listen("tcp", port) //Listening on port 8080
+	lis, _ := net.Listen("tcp", port) //Listening on port 8080
 	//Server initialization & register service
 	baseServer := grpc.NewServer()
 	api.RegisterSolarServiceServer(baseServer, &solarServer{})

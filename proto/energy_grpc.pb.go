@@ -23,6 +23,10 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SolarServiceClient interface {
 	GetEnergyFromHomesByParams(ctx context.Context, in *PowerConsumptionRequest, opts ...grpc.CallOption) (SolarService_GetEnergyFromHomesByParamsClient, error)
+<<<<<<< HEAD
+=======
+	GetEcoEnergyByParams(ctx context.Context, in *EcoEnergyRequest, opts ...grpc.CallOption) (SolarService_GetEcoEnergyByParamsClient, error)
+>>>>>>> feature/energy_from_eco_sources
 }
 
 type solarServiceClient struct {
@@ -65,11 +69,47 @@ func (x *solarServiceGetEnergyFromHomesByParamsClient) Recv() (*PowerFromHomes, 
 	return m, nil
 }
 
+func (c *solarServiceClient) GetEcoEnergyByParams(ctx context.Context, in *EcoEnergyRequest, opts ...grpc.CallOption) (SolarService_GetEcoEnergyByParamsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &SolarService_ServiceDesc.Streams[1], "/solarservice.SolarService/GetEcoEnergyByParams", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &solarServiceGetEcoEnergyByParamsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type SolarService_GetEcoEnergyByParamsClient interface {
+	Recv() (*EcoEnergy, error)
+	grpc.ClientStream
+}
+
+type solarServiceGetEcoEnergyByParamsClient struct {
+	grpc.ClientStream
+}
+
+func (x *solarServiceGetEcoEnergyByParamsClient) Recv() (*EcoEnergy, error) {
+	m := new(EcoEnergy)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // SolarServiceServer is the server API for SolarService service.
 // All implementations must embed UnimplementedSolarServiceServer
 // for forward compatibility
 type SolarServiceServer interface {
 	GetEnergyFromHomesByParams(*PowerConsumptionRequest, SolarService_GetEnergyFromHomesByParamsServer) error
+<<<<<<< HEAD
+=======
+	GetEcoEnergyByParams(*EcoEnergyRequest, SolarService_GetEcoEnergyByParamsServer) error
+>>>>>>> feature/energy_from_eco_sources
 	mustEmbedUnimplementedSolarServiceServer()
 }
 
@@ -79,6 +119,12 @@ type UnimplementedSolarServiceServer struct {
 
 func (UnimplementedSolarServiceServer) GetEnergyFromHomesByParams(*PowerConsumptionRequest, SolarService_GetEnergyFromHomesByParamsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetEnergyFromHomesByParams not implemented")
+<<<<<<< HEAD
+=======
+}
+func (UnimplementedSolarServiceServer) GetEcoEnergyByParams(*EcoEnergyRequest, SolarService_GetEcoEnergyByParamsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetEcoEnergyByParams not implemented")
+>>>>>>> feature/energy_from_eco_sources
 }
 func (UnimplementedSolarServiceServer) mustEmbedUnimplementedSolarServiceServer() {}
 
@@ -111,6 +157,30 @@ type solarServiceGetEnergyFromHomesByParamsServer struct {
 }
 
 func (x *solarServiceGetEnergyFromHomesByParamsServer) Send(m *PowerFromHomes) error {
+<<<<<<< HEAD
+=======
+	return x.ServerStream.SendMsg(m)
+}
+
+func _SolarService_GetEcoEnergyByParams_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(EcoEnergyRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(SolarServiceServer).GetEcoEnergyByParams(m, &solarServiceGetEcoEnergyByParamsServer{stream})
+}
+
+type SolarService_GetEcoEnergyByParamsServer interface {
+	Send(*EcoEnergy) error
+	grpc.ServerStream
+}
+
+type solarServiceGetEcoEnergyByParamsServer struct {
+	grpc.ServerStream
+}
+
+func (x *solarServiceGetEcoEnergyByParamsServer) Send(m *EcoEnergy) error {
+>>>>>>> feature/energy_from_eco_sources
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -125,6 +195,14 @@ var SolarService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetEnergyFromHomesByParams",
 			Handler:       _SolarService_GetEnergyFromHomesByParams_Handler,
+<<<<<<< HEAD
+=======
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetEcoEnergyByParams",
+			Handler:       _SolarService_GetEcoEnergyByParams_Handler,
+>>>>>>> feature/energy_from_eco_sources
 			ServerStreams: true,
 		},
 	},
