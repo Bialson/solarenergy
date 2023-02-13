@@ -17,7 +17,7 @@ message PowerConsumptionRequest {
 }
 
 message PowerFromHomes {
-    float value = 1;
+    double value = 1;
     string period = 2;
     int64 year = 3;
     string unit = 4;

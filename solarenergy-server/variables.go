@@ -101,7 +101,7 @@ type ResponseElement struct {
 	IdBrakWartosci           int64   `json:"id-brak-wartosci"`
 	IdTajnosci               int64   `json:"id-tajnosci"`
 	IdFlaga                  int64   `json:"id-flaga"`
-	Wartosc                  float32 `json:"wartosc"`
+	Wartosc                  float64 `json:"wartosc"`
 	Precyzja                 int64   `json:"precyzja"`
 }
 
