@@ -15,9 +15,11 @@ type EnergyData struct {
 type Energy interface {
 	RequestDBWData(year, cat, section int64) *http.Response
 	ExtractJSONData(response *http.Response) (energy []ResponseElement)
-	FilterByRegion(region string) (energy []ResponseElement)
-	ApplyFilters(filters map[string]string, amount int64)
+	FilterByRegion(region string) []ResponseElement
 	FilterByCharacter(character string) []ResponseElement
+	FilterByType(energyType string) []ResponseElement
+	FilterByUnit(unit string) []ResponseElement
+	ApplyFilters(filters map[string]string, amount int64)
 	SortByRegion(left, right int) []ResponseElement
 }
 
@@ -30,10 +32,13 @@ func (arr *EnergyData) ApplyFilters(filters map[string]string, amount int64) {
 			EnergyService.FilterByRegion(value)
 		case filter == "character" && value != "":
 			fmt.Printf("Filtering by character... [%v]\n", value)
+			EnergyService.FilterByCharacter(value)
 		case filter == "type":
 			fmt.Printf("Filtering by type... [%v]\n", value)
+			EnergyService.FilterByType(value)
 		case filter == "unit":
 			fmt.Printf("Filtering by unit... [%v]\n", value)
+			EnergyService.FilterByUnit(value)
 		}
 	}
 	if amount > int64(len(arr.Energy)) {
@@ -92,7 +97,34 @@ func (arr *EnergyData) FilterByCharacter(character string) []ResponseElement {
 		}
 	}
 	if len(result) > 0 {
-		*arr = EnergyData{Energy: arr.Energy}
+		*arr = EnergyData{Energy: result}
+	}
+	return result
+}
+
+// // Method for filtering data by type of energy source
+func (arr *EnergyData) FilterByType(typeOfEnergy string) []ResponseElement {
+	result := []ResponseElement{}
+	for i := range arr.Energy {
+		if Types[int(arr.Energy[i].IdPozycja2)] == typeOfEnergy {
+			result = append(result, arr.Energy[i])
+		}
+	}
+	if len(result) > 0 {
+		*arr = EnergyData{Energy: result}
+	}
+	return result
+}
+
+func (arr *EnergyData) FilterByUnit(energyUnit string) []ResponseElement {
+	result := []ResponseElement{}
+	for i := range arr.Energy {
+		if Units[int(arr.Energy[i].IdSposobPrezentacjiMiara)] == energyUnit {
+			result = append(result, arr.Energy[i])
+		}
+	}
+	if len(result) > 0 {
+		*arr = EnergyData{Energy: result}
 	}
 	return result
 }
@@ -121,27 +153,6 @@ func (arr *EnergyData) SortByRegion(left, right int) []ResponseElement {
 	}
 	return arr.Energy
 }
-
-// // Method for filtering data by type of energy source
-// func FilterByTypeOfSource(typeOfEnergy string) []ResponseElement {
-// 	result := []ResponseElement{}
-// 	for i := range EnergyDataArr {
-// 		if Types[int(EnergyDataArr[i].IdPozycja2)] == typeOfEnergy {
-// 			result = append(result, EnergyDataArr[i])
-// 		}
-// 	}
-// 	return result
-// }
-
-// func FilterByEnergyUnit(energyUnit string) []ResponseElement {
-// 	result := []ResponseElement{}
-// 	for i := range EnergyDataArr {
-// 		if Units[int(EnergyDataArr[i].IdSposobPrezentacjiMiara)] == energyUnit {
-// 			result = append(result, EnergyDataArr[i])
-// 		}
-// 	}
-// 	return result
-// }
 
 // func FilterByTypeAndUnit(typeOfEnergy, energyUnit string) []ResponseElement {
 // 	result := []ResponseElement{}
