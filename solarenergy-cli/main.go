@@ -68,7 +68,7 @@ func main() {
 					fmt.Printf("Type: %s, Year: %d, Amount: %d\n", cCtx.String("type"), cCtx.Int("year"), cCtx.Int("amount"))
 					fmt.Println(" * Connecting to server...")
 					//Create client connection to server
-					client, err, conn := CreateClient()
+					client, conn, err := CreateClient()
 					defer conn.Close()
 					if err != nil {
 						fmt.Printf("Error while connecting to server: %v", err)
@@ -134,7 +134,7 @@ func main() {
 					fmt.Printf("Region: %s, Character: %s, Year: %d, Amount: %d\n", cCtx.String("region"), cCtx.String("character"), cCtx.Int("year"), cCtx.Int("amount"))
 					fmt.Println(" * Connecting to server...")
 					//Create client connection to server
-					client, err, conn := CreateClient()
+					client, conn, err := CreateClient()
 					defer conn.Close()
 					if err != nil {
 						fmt.Printf("Error while connecting to server: %v", err)

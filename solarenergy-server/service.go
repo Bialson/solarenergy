@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 
 	api "github.com/Bialson/solarenergy/proto"
@@ -15,6 +16,11 @@ var EnergyService Energy = &EnergyDataArr
 //GetEnergyFromHomesByParams method implementation, request -> PowerConsumptionRequest message, response -> stream of PowerConsumptionResponse message, error
 
 //Method is responsible for getting energy consumption data from API DBW, filtering it and sending response to client
+
+func (s *solarServer) SeyHello(ctx context.Context, req *api.HelloReq) (*api.HelloRes, error) {
+	log.Printf("Received: %v", req.Name)
+	return &api.HelloRes{Message: "Hello " + req.GetName()}, nil
+}
 
 func (s *solarServer) GetEnergyFromHomesByParams(req *api.PowerConsumptionRequest, stream api.SolarService_GetEnergyFromHomesByParamsServer) error {
 	log.Printf("Received params: %v", req)
