@@ -9,9 +9,8 @@ const (
 	SECTION_1   = 156
 	SECTION_2   = 865
 	MAX_RESULTS = 204
+	PORT        = ":8080"
 )
-
-// var EnergyDataArrFiltered []ResponseElement
 
 // Variables for decoding data from API DBW response
 
