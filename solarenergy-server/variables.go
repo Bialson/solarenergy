@@ -81,8 +81,6 @@ var Types = map[int]string{
 	7072668: "Energia z kolektorów słonecznych",
 }
 
-// var Tags = map[int]string{}
-
 //Struct for decoding data array from API DBW response
 
 //Struct for decoding data record from API DBW response

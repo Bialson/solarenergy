@@ -52,6 +52,10 @@ func (s *solarServer) GetEnergyFromHomesByParams(req *api.PowerConsumptionReques
 	return nil
 }
 
+//GetEcoEnergyByParams method implementation, request -> EcoEnergyRequest message, response -> stream of EcoEnergy message, error
+
+//Method is responsible for getting amount of produced energy from renewable sources data from API DBW, filtering it and sending response to client
+
 func (s *solarServer) GetEcoEnergyByParams(req *api.EcoEnergyRequest, stream api.SolarService_GetEcoEnergyByParamsServer) error {
 	log.Printf("Received params: %v", req)
 	res := EnergyService.RequestDBWData(req.Year, DATA_CAT_2, SECTION_2)
