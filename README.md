@@ -12,17 +12,15 @@ This tool provides interaction with energy consumption data from Poland's Centra
 - Sorting results by region name
 - Filtering results with region name and character
 - Displaying results in custom CLI
-
+- Serving API over TLS 
+- Routing gRPC-web requests directly to gRPC Go Server
 
 
 
 ## Roadmap
 
 - More filtering parameters
-
-- Analyzing module for percentage power consumption from regions acording to total Poland's power consumption
-
-- Present data on charts
+- Stats for eco power sources
 
 
 
