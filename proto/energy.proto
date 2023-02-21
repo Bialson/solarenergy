@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+package solarservice;
+
+service SolarService{
+    rpc GetEnergyFromHomesByParams (PowerConsumptionRequest) returns (stream PowerFromHomes) {}
+    rpc GetEcoEnergyByParams (EcoEnergyRequest) returns (stream EcoEnergy) {}
+    rpc SeyHello (HelloReq) returns (HelloRes) {}
+}
+
+message HelloReq {
+    string name = 1;
+}
+
+message HelloRes {
+    string message = 1;
+}
+
+message PowerConsumptionRequest {
+    int64 year = 1;
+    int64 responseAmount = 2;
+    string region = 3;
+    string character = 4;
+}
+
+message PowerFromHomes {
+    double value = 1;
+    string period = 2;
+    int64 year = 3;
+    string unit = 4;
+    int64 precision = 5;
+    string character = 6;
+    string region = 7;
+}
+
+message EcoEnergyRequest {
+    int64 year = 1;
+    int64 responseAmount = 2;
+    string type = 3;
+    string unit = 4;
+}
+
+message EcoEnergy {
+    double value = 1;
+    string period = 2;
+    int64 year = 3;
+    string unit = 4;
+    int64 precision = 5;
+    string type = 6;
+    string region = 7;
+}
