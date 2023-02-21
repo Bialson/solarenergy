@@ -16,7 +16,7 @@ type solarServer struct {
 }
 
 func main() {
-	//Generate a TLS grpc API
+	//Generate a TLS certificates for grpc API server
 	apiserver, err := GenerateTLSApi("cert/server.crt", "cert/server.key")
 	if err != nil {
 		log.Fatal(err)
@@ -44,6 +44,6 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	//Listen and serve server on port 8080, TLS
+	//Listen and serve app on port 8080 over TLS
 	log.Fatal(srv.ListenAndServeTLS("cert/server.crt", "cert/server.key"))
 }

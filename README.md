@@ -99,12 +99,16 @@ Your folder structure will be looking like this
     ├── solarenergy-server/
     │   ├── bin/
     │   │   └── solarenergy-server
-    │   ├── main.go
+    │   │── gRPC_classic/
+    │   │   └── main.go
+    │   │── gRPC_web/
+    │   │   └── main.go
     │   ├── service_test.go
     │   ├── service.go
-    │   ├── sort.go
     │   ├── test_server.go
-    │   └── variables.go
+    │   ├── tools.go
+    │   ├── variables.go
+    │   └── web_tls.go
     ├── .gitignore
     ├── Dockerfile
     ├── go.mod
