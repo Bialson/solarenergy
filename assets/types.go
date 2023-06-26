@@ -18,8 +18,6 @@ type ResponseElement struct {
 	Precyzja                 int64   `json:"precyzja"`
 }
 
-type EnergyArray []ResponseElement
-
 type Data struct {
-	EnergyData EnergyArray `json:"data"`
+	Energy []ResponseElement `json:"data"`
 }

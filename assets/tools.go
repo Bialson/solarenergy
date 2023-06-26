@@ -6,15 +6,17 @@ import (
 	"io"
 	"log"
 	"net/http"
+
+	api "github.com/Bialson/solarenergy/proto"
+	"github.com/buger/jsonparser"
 )
 
-var DataArray Data
-
-var DataOps DataFilters = &DataArray
+var DataOps DataFilters = &Data{}
 
 type DataFilters interface {
 	RequestDBWData(year, cat, section int64) *http.Response
 	ExtractJSONData(response *http.Response) error
+	SendStreamData(stream api.SolarService_GetEnergyFromHomesByParamsServer) error
 	FilterByRegion(region string) []ResponseElement
 	FilterByCharacter(character string) []ResponseElement
 	FilterByType(energyType string) []ResponseElement
@@ -25,7 +27,7 @@ type DataFilters interface {
 
 func (dataArray *Data) RequestDBWData(year, cat, section int64) *http.Response {
 	//Requesting data from DBW API
-	url := fmt.Sprintf("https://api-dbw.stat.gov.pl/api/1.1.0/variable/variable-data-section?sorts=id-pozycja-2&id-zmienna=%v&id-przekroj=%v&id-rok=%d&id-okres=%v&ile-na-stronie=%d&numer-strony=0&lang=pl", cat, section, year, PERIOD, MAX_RESULTS)
+	url := fmt.Sprintf("https://api-dbw.stat.gov.pl/api/1.1.0/variable/variable-data-section?sorts=id-pozycja-2&id-zmienna=%v&id-przekroj=%v&id-rok=%d&id-okres=%v&ile-na-stronie=%d&numer-strony=0&lang=pl", cat, section, year, PERIOD, 2)
 	log.Printf("Requesting data from: %s", url)
 	response, err := http.Get(url)
 	if err != nil {
@@ -41,10 +43,35 @@ func (dataArray *Data) ExtractJSONData(response *http.Response) error {
 		log.Fatalf("Could not read data: %v", err)
 		return err
 	}
-	err = json.Unmarshal([]byte(resData), &dataArray.EnergyData)
+	jsonData, _, _, err := jsonparser.Get(resData, "data")
 	if err != nil { //Checking for errors
-		log.Fatalf("Could extract data: %v", err)
+		log.Fatalf("Could not extract data: %v", err)
 		return err
+	}
+	err = json.Unmarshal(jsonData, &dataArray.Energy)
+	if err != nil { //Checking for errors
+		log.Fatalf("Could not extract data: %v", err)
+		return err
+	}
+	return nil
+}
+
+func (dataArray *Data) SendStreamData(stream api.SolarService_GetEnergyFromHomesByParamsServer) error {
+	for _, el := range dataArray.Energy {
+		res := &api.PowerFromHomes{
+			Value:     el.Wartosc,
+			Period:    Variables[int(el.IdOkres)],
+			Year:      el.IdDaty,
+			Unit:      Units[int(el.IdSposobPrezentacjiMiara)],
+			Precision: el.Precyzja,
+			Region:    Regions[int(el.IdPozycja1)],
+			Character: Regions[int(el.IdPozycja2)],
+		}
+		err := stream.Send(res) //Sending response message to stream
+		if err != nil {
+			log.Fatalf("Could not send data: %v", err)
+			return err
+		}
 	}
 	return nil
 }
@@ -67,23 +94,23 @@ func (dataArray *Data) ApplyFilters(filters map[string]string, amount int64) {
 			dataArray.FilterByUnit(value)
 		}
 	}
-	if amount > int64(len(dataArray.EnergyData)) {
-		amount = int64(len(dataArray.EnergyData))
+	if amount > int64(len(dataArray.Energy)) {
+		amount = int64(len(dataArray.Energy))
 	}
-	*dataArray = Data{EnergyData: dataArray.EnergyData[:amount]}
-	log.Printf("Filtered data count: %v", len(dataArray.EnergyData))
+	*dataArray = Data{Energy: dataArray.Energy[:amount]}
+	log.Printf("Filtered data count: %v", len(dataArray.Energy))
 }
 
 // Method for filtering data by region
 func (dataArray *Data) FilterByRegion(region string) []ResponseElement {
 	result := []ResponseElement{}
-	for i := range dataArray.EnergyData {
-		if Regions[int(dataArray.EnergyData[i].IdPozycja1)] == region {
-			result = append(result, dataArray.EnergyData[i])
+	for i := range dataArray.Energy {
+		if Regions[int(dataArray.Energy[i].IdPozycja1)] == region {
+			result = append(result, dataArray.Energy[i])
 		}
 	}
 	if len(result) > 0 {
-		*dataArray = Data{EnergyData: result}
+		*dataArray = Data{Energy: result}
 	}
 	return result
 }
@@ -91,13 +118,13 @@ func (dataArray *Data) FilterByRegion(region string) []ResponseElement {
 // Method for filtering data by character
 func (dataArray *Data) FilterByCharacter(character string) []ResponseElement {
 	result := []ResponseElement{}
-	for i := range dataArray.EnergyData {
-		if Regions[int(dataArray.EnergyData[i].IdPozycja2)] == character {
-			result = append(result, dataArray.EnergyData[i])
+	for i := range dataArray.Energy {
+		if Regions[int(dataArray.Energy[i].IdPozycja2)] == character {
+			result = append(result, dataArray.Energy[i])
 		}
 	}
 	if len(result) > 0 {
-		*dataArray = Data{EnergyData: result}
+		*dataArray = Data{Energy: result}
 	}
 	return result
 }
@@ -105,26 +132,26 @@ func (dataArray *Data) FilterByCharacter(character string) []ResponseElement {
 // // Method for filtering data by type of energy source
 func (dataArray *Data) FilterByType(typeOfEnergy string) []ResponseElement {
 	result := []ResponseElement{}
-	for i := range dataArray.EnergyData {
-		if EnergyTypes[int(dataArray.EnergyData[i].IdPozycja2)] == typeOfEnergy {
-			result = append(result, dataArray.EnergyData[i])
+	for i := range dataArray.Energy {
+		if EnergyTypes[int(dataArray.Energy[i].IdPozycja2)] == typeOfEnergy {
+			result = append(result, dataArray.Energy[i])
 		}
 	}
 	if len(result) > 0 {
-		*dataArray = Data{EnergyData: result}
+		*dataArray = Data{Energy: result}
 	}
 	return result
 }
 
 func (dataArray *Data) FilterByUnit(energyUnit string) []ResponseElement {
 	result := []ResponseElement{}
-	for i := range dataArray.EnergyData {
-		if Units[int(dataArray.EnergyData[i].IdSposobPrezentacjiMiara)] == energyUnit {
-			result = append(result, dataArray.EnergyData[i])
+	for i := range dataArray.Energy {
+		if Units[int(dataArray.Energy[i].IdSposobPrezentacjiMiara)] == energyUnit {
+			result = append(result, dataArray.Energy[i])
 		}
 	}
 	if len(result) > 0 {
-		*dataArray = Data{EnergyData: result}
+		*dataArray = Data{Energy: result}
 	}
 	return result
 }
@@ -147,11 +174,11 @@ func partition(dataArray []ResponseElement, left, right int) ([]ResponseElement,
 func (dataArray *Data) SortByRegion(left, right int) []ResponseElement {
 	if left < right {
 		var p int
-		dataArray.EnergyData, p = partition(dataArray.EnergyData, left, right)
-		dataArray.EnergyData = dataArray.SortByRegion(left, p-1)
-		dataArray.EnergyData = dataArray.SortByRegion(p+1, right)
+		dataArray.Energy, p = partition(dataArray.Energy, left, right)
+		dataArray.Energy = dataArray.SortByRegion(left, p-1)
+		dataArray.Energy = dataArray.SortByRegion(p+1, right)
 	}
-	return dataArray.EnergyData
+	return dataArray.Energy
 }
 
 // func FilterByTypeAndUnit(typeOfEnergy, energyUnit string) []ResponseElement {
