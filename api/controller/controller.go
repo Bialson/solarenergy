@@ -25,24 +25,28 @@ func (s *SolarServer) GetEnergyFromHomesByParams(req *api.PowerConsumptionReques
 	if status := res.StatusCode; status != 200 { //Identyfing status code of response
 		log.Printf("Bad request or server not responding, ERR_CODE: %v", status)
 	} else {
-		filters := map[string]string{"region": req.Region, "character": req.Character}
-		assets.DataOps.ApplyFilters(filters, req.ResponseAmount)
-		assets.DataOps.SortByRegion(0, len(assets.DataArray.EnergyData)-1)
-		for _, el := range assets.DataArray.EnergyData {
-			res := &api.PowerFromHomes{
-				Value:     el.Wartosc,
-				Period:    assets.Variables[int(el.IdOkres)],
-				Year:      el.IdDaty,
-				Unit:      assets.Units[int(el.IdSposobPrezentacjiMiara)],
-				Precision: el.Precyzja,
-				Region:    assets.Regions[int(el.IdPozycja1)],
-				Character: assets.Regions[int(el.IdPozycja2)],
-			}
-			err := stream.Send(res) //Sending response message to stream
-			if err != nil {
-				log.Fatalf("Could not send data: %v", err)
-			}
+		err := assets.DataOps.SendStreamData(stream)
+		if err != nil {
+			log.Printf("Error while sending data, ERR_CODE: %v", status)
 		}
+		// filters := map[string]string{"region": req.Region, "character": req.Character}
+		// assets.DataOps.ApplyFilters(filters, req.ResponseAmount)
+		// assets.DataOps.SortByRegion(0, len(assets.DataArray.Energy)-1)
+		// for _, el := range assets.DataArray.Energy {
+		// 	res := &api.PowerFromHomes{
+		// 		Value:     el.Wartosc,
+		// 		Period:    assets.Variables[int(el.IdOkres)],
+		// 		Year:      el.IdDaty,
+		// 		Unit:      assets.Units[int(el.IdSposobPrezentacjiMiara)],
+		// 		Precision: el.Precyzja,
+		// 		Region:    assets.Regions[int(el.IdPozycja1)],
+		// 		Character: assets.Regions[int(el.IdPozycja2)],
+		// 	}
+		// 	err := stream.Send(res) //Sending response message to stream
+		// 	if err != nil {
+		// 		log.Fatalf("Could not send data: %v", err)
+		// 	}
+		// }
 	}
 	return nil
 }
@@ -61,22 +65,22 @@ func (s *SolarServer) GetEcoEnergyByParams(req *api.EcoEnergyRequest, stream api
 	} else {
 		filters := map[string]string{"unit": req.Unit, "type": req.Type}
 		assets.DataOps.ApplyFilters(filters, req.ResponseAmount)
-		for _, el := range assets.DataArray.EnergyData {
-			//Generating response message
-			res := &api.EcoEnergy{
-				Value:     el.Wartosc,
-				Period:    assets.Variables[int(el.IdOkres)],
-				Year:      el.IdDaty,
-				Unit:      assets.Units[int(el.IdSposobPrezentacjiMiara)],
-				Precision: el.Precyzja,
-				Type:      assets.EnergyTypes[int(el.IdPozycja2)],
-				Region:    assets.Regions[int(el.IdPozycja1)],
-			}
-			err := stream.Send(res) //Sending response message to stream
-			if err != nil {
-				log.Fatalf("Could not send data: %v", err)
-			}
-		}
+		// for _, el := range assets.DataArray.Energy {
+		// 	//Generating response message
+		// 	res := &api.EcoEnergy{
+		// 		Value:     el.Wartosc,
+		// 		Period:    assets.Variables[int(el.IdOkres)],
+		// 		Year:      el.IdDaty,
+		// 		Unit:      assets.Units[int(el.IdSposobPrezentacjiMiara)],
+		// 		Precision: el.Precyzja,
+		// 		Type:      assets.EnergyTypes[int(el.IdPozycja2)],
+		// 		Region:    assets.Regions[int(el.IdPozycja1)],
+		// 	}
+		// 	err := stream.Send(res) //Sending response message to stream
+		// 	if err != nil {
+		// 		log.Fatalf("Could not send data: %v", err)
+		// 	}
+		// }
 	}
 	return nil
 }
