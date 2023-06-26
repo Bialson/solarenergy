@@ -32,7 +32,7 @@ func main() {
 						Value:   2020,
 						Action: func(cCtx *cli.Context, v int) error {
 							if v < 2010 {
-								return fmt.Errorf("Year cannot be lower than 2010")
+								return fmt.Errorf("year cannot be lower than 2010")
 							}
 							return nil
 						},
@@ -44,7 +44,7 @@ func main() {
 						Value:   80,
 						Action: func(cCtx *cli.Context, v int) error {
 							if v > 80 {
-								return fmt.Errorf("Results amount cannot be higher than 204")
+								return fmt.Errorf("results amount cannot be higher than 204")
 							}
 							return nil
 						},
@@ -110,7 +110,7 @@ func main() {
 						Value:   2020,
 						Action: func(cCtx *cli.Context, v int) error {
 							if v < 2000 {
-								return fmt.Errorf("Year cannot be lower than 2000")
+								return fmt.Errorf("year cannot be lower than 2000")
 							}
 							return nil
 						},
@@ -122,7 +122,7 @@ func main() {
 						Value:   204,
 						Action: func(cCtx *cli.Context, v int) error {
 							if v > 204 {
-								return fmt.Errorf("Results amount cannot be higher than 204")
+								return fmt.Errorf("results amount cannot be higher than 204")
 							}
 							return nil
 						},
