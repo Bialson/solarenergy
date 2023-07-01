@@ -10,8 +10,6 @@ const (
 	PORT        = ":8080"
 )
 
-// Variables for decoding data from API DBW response
-
 var Variables = map[int]string{
 	156:  "Polska, województwa; Charakter miejscowości",
 	232:  "Pozyskanie energii",
